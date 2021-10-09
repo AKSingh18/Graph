@@ -1,6 +1,7 @@
 package Graph;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.Stack;
 
 public class TopologicalSort
@@ -16,7 +17,6 @@ public class TopologicalSort
      * Finds a valid topological ordering using DFS
      *
      * @return Stack<Integer> which stores a valid topological ordering which can be obtained by popping the elements
-     * till the stack is empty
      */
     public Stack<Integer> topologicalOrdering()
     {
@@ -48,6 +48,55 @@ public class TopologicalSort
             }
         }
 
+        // On finishing the exploration of the vertex source, add it the stack
         ordering.add(source);
+    }
+
+    /**
+     *
+     * @return LinkedList<Integer> which stores a valid topological ordering which can be obtained by removing all
+     * the elements from the start
+     */
+    public LinkedList<Integer> kahns()
+    {
+        int[] inDegree = new int[graph.vertices];
+        LinkedList<Integer> queue = new LinkedList<>();
+        LinkedList<Integer> ordering = new LinkedList<>();
+
+        // Find in-degree of all the vertices
+        for (int source = 0;source < graph.vertices;source++)
+        {
+            for (Graph.Neighbour neighbour : graph.adjacencyList.get(source)) inDegree[neighbour.destination]++;
+        }
+
+        for (int i = 0; i < inDegree.length; i++)
+        {
+            if (inDegree[i] == 0)
+            {
+                queue.add(i);
+                ordering.add(i);
+            }
+        }
+
+        while (!queue.isEmpty())
+        {
+            int u = queue.removeFirst();
+
+            for (Graph.Neighbour neighbour: graph.adjacencyList.get(u))
+            {
+                /*
+                Decrease the in-degree of neighbouring vertex by 1. If in-degree now becomes 0, add it to the queue
+                 */
+                inDegree[neighbour.destination]--;
+
+                if (inDegree[neighbour.destination] == 0)
+                {
+                    queue.add(neighbour.destination);
+                    ordering.add(neighbour.destination);
+                }
+            }
+        }
+
+        return ordering;
     }
 }
