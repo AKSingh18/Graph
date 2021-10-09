@@ -2,7 +2,7 @@ package Graph;
 
 public class DirectedGraph extends Graph
 {
-    DirectedGraph transpose;
+    private DirectedGraph transpose;
 
     public DirectedGraph(int vertices) {
         super(vertices);
@@ -14,10 +14,8 @@ public class DirectedGraph extends Graph
         adjacencyList.get(u).add(new Neighbour(v, weight));
     }
 
-    public void setTranspose()
+    private void setTranspose()
     {
-        if (transpose != null) return;
-
         // Create a new transpose graph and set the current graph as its transpose
         transpose = new DirectedGraph(vertices);
         transpose.transpose = this;
@@ -26,5 +24,11 @@ public class DirectedGraph extends Graph
         {
             for (Neighbour neighbour: adjacencyList.get(i)) transpose.addEdge(neighbour.destination, i, neighbour.weight);
         }
+    }
+
+    public DirectedGraph getTranspose()
+    {
+        if (transpose == null) setTranspose();
+        return transpose;
     }
 }
