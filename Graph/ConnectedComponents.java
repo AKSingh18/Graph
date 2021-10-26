@@ -21,6 +21,7 @@ public class ConnectedComponents
         }
 
         /**
+         * Test Link: https://www.hackerearth.com/problem/algorithm/connected-components-in-a-graph/
          *
          * @return ArrayList<ArrayList<Integer>> where each inner list represents a single connected component
          */
@@ -81,6 +82,7 @@ public class ConnectedComponents
         }
 
         /**
+         * Test Link: https://practice.geeksforgeeks.org/problems/strongly-connected-components-kosarajus-algo/1
          *
          * @return ArrayList<ArrayList<Integer>> where each inner list represents a single strongly connected component
          */
@@ -125,6 +127,7 @@ public class ConnectedComponents
         }
 
         /**
+         * Test Link: https://practice.geeksforgeeks.org/problems/depth-first-traversal-for-a-graph/1
          *
          * @param source source
          * @param parent parent array

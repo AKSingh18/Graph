@@ -16,6 +16,8 @@ public class TopologicalSort
     /**
      * Finds a valid topological ordering using DFS
      *
+     * Test Link: https://practice.geeksforgeeks.org/problems/topological-sort/1
+     *
      * @return Stack<Integer> which stores a valid topological ordering which can be obtained by popping the elements
      */
     public Stack<Integer> topologicalOrdering()
@@ -37,6 +39,14 @@ public class TopologicalSort
         return ordering;
     }
 
+    /**
+     * Test Link: https://practice.geeksforgeeks.org/problems/depth-first-traversal-for-a-graph/1
+     *
+     * @param source source
+     * @param parent parent array
+     * @param ordering stack to store vertices according to their finishing time. vertex with the largest
+     *                 finishing time will be at the top upon completion
+     */
     private void DFS(int source, int[] parent, Stack<Integer> ordering)
     {
         for (Graph.Neighbour neighbour: graph.adjacencyList.get(source))
@@ -53,6 +63,7 @@ public class TopologicalSort
     }
 
     /**
+     * Test Link: https://practice.geeksforgeeks.org/problems/topological-sort/1
      *
      * @return LinkedList<Integer> which stores a valid topological ordering which can be obtained by removing all
      * the elements from the start

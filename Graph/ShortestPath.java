@@ -24,6 +24,8 @@ public class ShortestPath
     }
 
     /**
+     * Test Link: https://practice.geeksforgeeks.org/problems/implementing-dijkstra-set-1-adjacency-matrix/1
+     *
      * NOTE: The current implementation of dijkstra takes O(V^2) time.
      *
      * @param source source vertex
@@ -80,6 +82,7 @@ public class ShortestPath
 
 
     /**
+     * Test Link: https://practice.geeksforgeeks.org/problems/distance-from-the-source-bellman-ford-algorithm/0/?fbclid=IwAR2_lL0T84DnciLyzMTQuVTMBOi82nTWNLuXjUgahnrtBgkphKiYk6xcyJU
      *
      * @param source source vertex
      * @return null if negative cycle is found else 1D distance array
@@ -123,6 +126,7 @@ public class ShortestPath
     }
 
     /**
+     * Test Link: https://practice.geeksforgeeks.org/problems/implementing-floyd-warshall2042/1#
      *
      * @return 2D distance array
      */

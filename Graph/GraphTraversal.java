@@ -19,6 +19,8 @@ public class GraphTraversal
      * NOTE: BFS considers the graph as non-weighted, ie, it does take the weight of the edges into account while
      * calculating shortest path.
      *
+     * Test Link: https://practice.geeksforgeeks.org/problems/bfs-traversal-of-graph/1
+     *
      * @param source source vertex
      * @return distance
      */
