@@ -1,6 +1,8 @@
 package Graph;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Stack;
 
 /**
  *
@@ -78,9 +80,84 @@ public class ConnectedComponents
             return new UG(undirectedGraph).connectedComponents();
         }
 
-        public ArrayList<ArrayList<Integer>> strongConnectedComponents()
+        /**
+         *
+         * @return ArrayList<ArrayList<Integer>> where each inner list represents a single strongly connected component
+         */
+        public ArrayList<ArrayList<Integer>> kosarajus()
         {
-            return null;
+            int[] parent = new int[graph.vertices];
+            Arrays.fill(parent, -1);
+
+            Stack<Integer> ordering = new Stack<>();
+
+            for (int i = 0;i < graph.vertices;i++)
+            {
+                if (parent[i] == -1)
+                {
+                    parent[i] = -2;
+                    DFS(i, parent, ordering);
+                }
+            }
+
+            // Reset the parent array
+            Arrays.fill(parent, -1);
+            DirectedGraph transpose =  graph.getTranspose();
+
+            ArrayList<ArrayList<Integer>> connectedComponents = new ArrayList<>();
+
+            while (!ordering.isEmpty())
+            {
+                if (parent[ordering.peek()] == -1)
+                {
+                    ArrayList<Integer> connectedComponent = new ArrayList<>();
+
+                    parent[ordering.peek()] = -2;
+                    findConnectedComponent(transpose, ordering.peek(), parent, connectedComponent);
+
+                    connectedComponents.add(connectedComponent);
+                }
+
+                ordering.pop();
+            }
+
+            return connectedComponents;
+        }
+
+        /**
+         *
+         * @param source source
+         * @param parent parent array
+         * @param ordering stack to store vertices according to their finishing time. vertex with the largest
+         *                 finishing time will be at the top upon completion
+         */
+        private void DFS(int source, int[] parent, Stack<Integer> ordering)
+        {
+            for (Graph.Neighbour neighbour: graph.adjacencyList.get(source))
+            {
+                if (parent[neighbour.destination] == -1)
+                {
+                    parent[neighbour.destination] = source;
+                    DFS(neighbour.destination, parent, ordering);
+                }
+            }
+
+            // On finishing the exploration of the vertex source, add it the stack
+            ordering.add(source);
+        }
+
+        private void findConnectedComponent(DirectedGraph transpose, int source, int[] parent, ArrayList<Integer> connectedComponent)
+        {
+            connectedComponent.add(source);
+
+            for (Graph.Neighbour neighbour: transpose.adjacencyList.get(source))
+            {
+                if (parent[neighbour.destination] == -1)
+                {
+                    parent[neighbour.destination] = source;
+                    findConnectedComponent(transpose, neighbour.destination, parent, connectedComponent);
+                }
+            }
         }
     }
 }
