@@ -2,6 +2,7 @@ package Graph;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Stack;
 
 /**
@@ -160,6 +161,67 @@ public class ConnectedComponents
                     parent[neighbour.destination] = source;
                     findConnectedComponent(transpose, neighbour.destination, parent, connectedComponent);
                 }
+            }
+        }
+
+        // Used to give unique ID to vertices in tarjan's algorithm
+        private int time;
+
+        /**
+         * Test Link: https://practice.geeksforgeeks.org/problems/strongly-connected-component-tarjanss-algo-1587115621/1#
+         *            https://www.codingninjas.com/codestudio/problems/strongly-connected-components-tarjan-s-algorithm_985311?leftPanelTab=1
+         *
+         * @return List of SCCs present in the directed graph
+         */
+        public ArrayList<ArrayList<Integer>> tarjans()
+        {
+            time = 0;
+
+            ArrayList<ArrayList<Integer>> scc = new ArrayList<>();
+
+            int[] discovery = new int[graph.vertices];
+            int[] lowLink = new int[graph.vertices];
+            Arrays.fill(discovery, -1);
+
+            for (int u = 0;u < graph.vertices;u++)
+            {
+                if (discovery[u] == -1) tarjansDFS(u, discovery, lowLink, new boolean[graph.vertices], new Stack<>(), scc);
+            }
+
+            return scc;
+        }
+
+        private void tarjansDFS(int source, int[] discovery, int[] lowLink, boolean[] onStack, Stack<Integer> stack,
+                                ArrayList<ArrayList<Integer>> scc)
+        {
+            discovery[source] = time;
+            lowLink[source] = time;
+            onStack[source] = true;
+            stack.add(source);
+
+            time++;
+
+            for (Graph.Neighbour v : graph.adjacencyList.get(source))
+            {
+                if (discovery[v.destination] == -1) tarjansDFS(v.destination, discovery, lowLink, onStack, stack, scc);
+                if (onStack[v.destination]) lowLink[source] = Math.min(lowLink[source], lowLink[v.destination]);
+            }
+
+            if (lowLink[source] == discovery[source])
+            {
+                ArrayList<Integer> component = new ArrayList<>();
+
+                int vertex = -1;
+                while (vertex != source)
+                {
+                    vertex = stack.pop();
+
+                    onStack[vertex] = false;
+                    component.add(vertex);
+                }
+
+                component.sort(Comparator.comparingInt(o -> o));
+                scc.add(component);
             }
         }
     }
