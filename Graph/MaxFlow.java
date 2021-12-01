@@ -13,13 +13,10 @@ public class MaxFlow
     }
 
     /**
-     * Test Link: https://practice.geeksforgeeks.org/problems/find-the-maximum-flow2126/1
      *
-     * @param source
-     * @param sink
-     * @return maximum flow
+     * @return residual graph
      */
-    public int edmondsKarp(int source, int sink)
+    private Graph constructResidualGraph()
     {
         Graph residualGraph = new Graph(graph.vertices);
 
@@ -31,7 +28,7 @@ public class MaxFlow
                 // If forward edge already exists, update its weight
                 if (residualGraph.hasEdge(u, neighbour.destination))
                     residualGraph.getNeighbour(u, neighbour.destination).weight += neighbour.weight;
-                // In case it does not exist, create one
+                    // In case it does not exist, create one
                 else residualGraph.addEdge(u, neighbour.destination, neighbour.weight);
 
                 // If backward edge does not already exist, add it
@@ -39,6 +36,20 @@ public class MaxFlow
                     residualGraph.addEdge(neighbour.destination, u, 0);
             }
         }
+
+        return residualGraph;
+    }
+
+    /**
+     * Test Link: https://practice.geeksforgeeks.org/problems/find-the-maximum-flow2126/1
+     *
+     * @param source
+     * @param sink
+     * @return maximum flow
+     */
+    public int edmondsKarp(int source, int sink)
+    {
+        Graph residualGraph = constructResidualGraph();
 
         int[] parent;
         int maxFlow = 0;
@@ -65,7 +76,6 @@ public class MaxFlow
             }
 
             maxFlow += flow;
-            //residualGraph.printGraph();
         }
 
         return maxFlow;
