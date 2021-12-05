@@ -168,6 +168,12 @@ public class MaxFlow
         return -1;
     }
 
+    /**
+     *
+     * @param residualGraph residual graph
+     * @param u overflowing vertex
+     * @param h height array
+     */
     private void relabel(Graph residualGraph, int u, int[] h)
     {
         int minHeight = Integer.MAX_VALUE;
@@ -180,6 +186,13 @@ public class MaxFlow
         h[u] = minHeight+1;
     }
 
+    /**
+     *
+     * @param residualGraph residual graph
+     * @param u overflowing vertex
+     * @param e excess flow array
+     * @param h height array
+     */
     private void push(Graph residualGraph, int u, int[] e, int[] h)
     {
         for (Graph.Vertex v : residualGraph.adjacencyList.get(u))
