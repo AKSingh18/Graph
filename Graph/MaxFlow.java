@@ -43,8 +43,8 @@ public class MaxFlow
     /**
      * Test Link: https://practice.geeksforgeeks.org/problems/find-the-maximum-flow2126/1
      *
-     * @param source
-     * @param sink
+     * @param source source
+     * @param sink sink
      * @return maximum flow
      */
     public int edmondsKarp(int source, int sink)
