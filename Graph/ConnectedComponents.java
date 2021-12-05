@@ -50,9 +50,9 @@ public class ConnectedComponents
             isVisited[source] = true;
             component.add(source);
 
-            for (Graph.Neighbour neighbour: graph.adjacencyList.get(source))
+            for (Graph.Vertex v : graph.adjacencyList.get(source))
             {
-                if (!isVisited[neighbour.destination]) findConnectedComponent(neighbour.destination, isVisited, component);
+                if (!isVisited[v.i]) findConnectedComponent(v.i, isVisited, component);
             }
         }
     }
@@ -75,7 +75,7 @@ public class ConnectedComponents
             UndirectedGraph undirectedGraph = new UndirectedGraph(graph.vertices);
             for (int u = 0;u < graph.vertices;u++)
             {
-                for (Graph.Neighbour neighbour : graph.adjacencyList.get(u)) undirectedGraph.addEdge(u, neighbour.destination, null);
+                for (Graph.Vertex v : graph.adjacencyList.get(u)) undirectedGraph.addEdge(u, v.i, null);
             }
 
             // Step 2: Return the connected components of the underlying undirected graph
@@ -137,12 +137,12 @@ public class ConnectedComponents
          */
         private void DFS(int source, int[] parent, Stack<Integer> ordering)
         {
-            for (Graph.Neighbour neighbour: graph.adjacencyList.get(source))
+            for (Graph.Vertex v : graph.adjacencyList.get(source))
             {
-                if (parent[neighbour.destination] == -1)
+                if (parent[v.i] == -1)
                 {
-                    parent[neighbour.destination] = source;
-                    DFS(neighbour.destination, parent, ordering);
+                    parent[v.i] = source;
+                    DFS(v.i, parent, ordering);
                 }
             }
 
@@ -154,12 +154,12 @@ public class ConnectedComponents
         {
             connectedComponent.add(source);
 
-            for (Graph.Neighbour neighbour: transpose.adjacencyList.get(source))
+            for (Graph.Vertex v : transpose.adjacencyList.get(source))
             {
-                if (parent[neighbour.destination] == -1)
+                if (parent[v.i] == -1)
                 {
-                    parent[neighbour.destination] = source;
-                    findConnectedComponent(transpose, neighbour.destination, parent, connectedComponent);
+                    parent[v.i] = source;
+                    findConnectedComponent(transpose, v.i, parent, connectedComponent);
                 }
             }
         }
@@ -201,23 +201,23 @@ public class ConnectedComponents
 
             time++;
 
-            for (Graph.Neighbour v : graph.adjacencyList.get(source))
+            for (Graph.Vertex v : graph.adjacencyList.get(source))
             {
-                if (discovery[v.destination] == -1) tarjansDFS(v.destination, discovery, lowLink, onStack, stack, scc);
-                if (onStack[v.destination]) lowLink[source] = Math.min(lowLink[source], lowLink[v.destination]);
+                if (discovery[v.i] == -1) tarjansDFS(v.i, discovery, lowLink, onStack, stack, scc);
+                if (onStack[v.i]) lowLink[source] = Math.min(lowLink[source], lowLink[v.i]);
             }
 
             if (lowLink[source] == discovery[source])
             {
                 ArrayList<Integer> component = new ArrayList<>();
 
-                int vertex = -1;
-                while (vertex != source)
+                int v = -1;
+                while (v != source)
                 {
-                    vertex = stack.pop();
+                    v = stack.pop();
 
-                    onStack[vertex] = false;
-                    component.add(vertex);
+                    onStack[v] = false;
+                    component.add(v);
                 }
 
                 component.sort(Comparator.comparingInt(o -> o));

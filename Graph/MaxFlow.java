@@ -23,17 +23,17 @@ public class MaxFlow
         // Construct residual graph
         for (int u = 0;u < graph.vertices;u++)
         {
-            for (Graph.Neighbour neighbour: graph.adjacencyList.get(u))
+            for (Graph.Vertex v : graph.adjacencyList.get(u))
             {
                 // If forward edge already exists, update its weight
-                if (residualGraph.hasEdge(u, neighbour.destination))
-                    residualGraph.getNeighbour(u, neighbour.destination).weight += neighbour.weight;
+                if (residualGraph.hasEdge(u, v.i))
+                    residualGraph.getNeighbour(u, v.i).w += v.w;
                 // In case it does not exist, create one
-                else residualGraph.addEdge(u, neighbour.destination, neighbour.weight);
+                else residualGraph.addEdge(u, v.i, v.w);
 
                 // If backward edge does not already exist, add it
-                if (!residualGraph.hasEdge(neighbour.destination, u))
-                    residualGraph.addEdge(neighbour.destination, u, 0);
+                if (!residualGraph.hasEdge(v.i, u))
+                    residualGraph.addEdge(v.i, u, 0);
             }
         }
 
@@ -60,17 +60,17 @@ public class MaxFlow
 
             while (currentVertex != source)
             {
-                flow = Math.min(residualGraph.getNeighbour(parent[currentVertex], currentVertex).weight, flow);
+                flow = Math.min(residualGraph.getNeighbour(parent[currentVertex], currentVertex).w, flow);
                 currentVertex = parent[currentVertex];
             }
 
             currentVertex = sink;
             while (currentVertex != source)
             {
-                residualGraph.getNeighbour(parent[currentVertex], currentVertex).weight =
-                        Math.max(residualGraph.getNeighbour(parent[currentVertex], currentVertex).weight-=flow, 0);
+                residualGraph.getNeighbour(parent[currentVertex], currentVertex).w =
+                        Math.max(residualGraph.getNeighbour(parent[currentVertex], currentVertex).w -=flow, 0);
 
-                residualGraph.getNeighbour(currentVertex, parent[currentVertex]).weight += flow;
+                residualGraph.getNeighbour(currentVertex, parent[currentVertex]).w += flow;
 
                 currentVertex = parent[currentVertex];
             }
@@ -102,12 +102,12 @@ public class MaxFlow
         {
             int u = queue.remove();
 
-            for (Graph.Neighbour neighbour: residualGraph.adjacencyList.get(u))
+            for (Graph.Vertex v : residualGraph.adjacencyList.get(u))
             {
-                if (parent[neighbour.destination] == -1 && neighbour.weight > 0)
+                if (parent[v.i] == -1 && v.w > 0)
                 {
-                    parent[neighbour.destination] = u;
-                    queue.add(neighbour.destination);
+                    parent[v.i] = u;
+                    queue.add(v.i);
                 }
             }
         }
@@ -135,12 +135,12 @@ public class MaxFlow
 
         h[0] = graph.vertices;
 
-        for (Graph.Neighbour neighbour: graph.adjacencyList.get(0))
+        for (Graph.Vertex v : graph.adjacencyList.get(0))
         {
-            residualGraph.getNeighbour(0, neighbour.destination).weight = 0;
-            residualGraph.getNeighbour(neighbour.destination, 0).weight = neighbour.weight;
+            residualGraph.getNeighbour(0, v.i).w = 0;
+            residualGraph.getNeighbour(v.i, 0).w = v.w;
 
-            e[neighbour.destination] = neighbour.weight;
+            e[v.i] = v.w;
         }
 
         // Step 2: Update the pre-flow while there remains an applicable push or relabel operation
@@ -172,9 +172,9 @@ public class MaxFlow
     {
         int minHeight = Integer.MAX_VALUE;
 
-        for (Graph.Neighbour neighbour: residualGraph.adjacencyList.get(u))
+        for (Graph.Vertex v : residualGraph.adjacencyList.get(u))
         {
-            if (neighbour.weight > 0) minHeight = Math.min(h[neighbour.destination], minHeight);
+            if (v.w > 0) minHeight = Math.min(h[v.i], minHeight);
         }
 
         h[u] = minHeight+1;
@@ -182,21 +182,21 @@ public class MaxFlow
 
     private void push(Graph residualGraph, int u, int[] e, int[] h)
     {
-        for (Graph.Neighbour neighbour: residualGraph.adjacencyList.get(u))
+        for (Graph.Vertex v : residualGraph.adjacencyList.get(u))
         {
             // after pushing flow if there is no excess flow, then break
             if (e[u] == 0) break;
 
-            // push more flow to the adjacent vertex if possible
-            if (neighbour.weight > 0 && h[neighbour.destination] < h[u])
+            // push more flow to the adjacent v if possible
+            if (v.w > 0 && h[v.i] < h[u])
             {
-                int f = Math.min(e[u], neighbour.weight);
+                int f = Math.min(e[u], v.w);
 
-                neighbour.weight -= f;
-                residualGraph.getNeighbour(neighbour.destination,u).weight += f;
+                v.w -= f;
+                residualGraph.getNeighbour(v.i,u).w += f;
 
                 e[u] -= f;
-                e[neighbour.destination] += f;
+                e[v.i] += f;
             }
         }
     }

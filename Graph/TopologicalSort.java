@@ -49,12 +49,12 @@ public class TopologicalSort
      */
     private void DFS(int source, int[] parent, Stack<Integer> ordering)
     {
-        for (Graph.Neighbour neighbour: graph.adjacencyList.get(source))
+        for (Graph.Vertex v : graph.adjacencyList.get(source))
         {
-            if (parent[neighbour.destination] == -1)
+            if (parent[v.i] == -1)
             {
-                parent[neighbour.destination] = source;
-                DFS(neighbour.destination, parent, ordering);
+                parent[v.i] = source;
+                DFS(v.i, parent, ordering);
             }
         }
 
@@ -77,7 +77,7 @@ public class TopologicalSort
         // Find in-degree of all the vertices
         for (int source = 0;source < graph.vertices;source++)
         {
-            for (Graph.Neighbour neighbour : graph.adjacencyList.get(source)) inDegree[neighbour.destination]++;
+            for (Graph.Vertex v : graph.adjacencyList.get(source)) inDegree[v.i]++;
         }
 
         for (int i = 0; i < inDegree.length; i++)
@@ -93,17 +93,17 @@ public class TopologicalSort
         {
             int u = queue.removeFirst();
 
-            for (Graph.Neighbour neighbour: graph.adjacencyList.get(u))
+            for (Graph.Vertex v : graph.adjacencyList.get(u))
             {
                 /*
                 Decrease the in-degree of neighbouring vertex by 1. If in-degree now becomes 0, add it to the queue
                  */
-                inDegree[neighbour.destination]--;
+                inDegree[v.i]--;
 
-                if (inDegree[neighbour.destination] == 0)
+                if (inDegree[v.i] == 0)
                 {
-                    queue.add(neighbour.destination);
-                    ordering.add(neighbour.destination);
+                    queue.add(v.i);
+                    ordering.add(v.i);
                 }
             }
         }

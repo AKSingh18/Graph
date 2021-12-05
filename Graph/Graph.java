@@ -4,26 +4,26 @@ import java.util.ArrayList;
 
 public class Graph
 {
-    public static class Neighbour
+    public static class Vertex
     {
-        Integer destination;
-        Integer weight;
+        Integer i; // number of the vertex
+        Integer w; // weight or capacity associated with the vertex
 
-        public Neighbour(Integer destination, Integer weight)
+        public Vertex(Integer i, Integer w)
         {
-            this.destination = destination;
-            this.weight = weight;
+            this.i = i;
+            this.w = w;
         }
 
         @Override
         public String toString()
         {
-            if (weight != null) return "[" + destination + ", " + weight + "]";
-            else return "[" + destination + "]";
+            if (w != null) return "[" + i + ", " + w + "]";
+            else return "[" + i + "]";
         }
     }
 
-    final ArrayList<ArrayList<Neighbour>> adjacencyList;
+    final ArrayList<ArrayList<Graph.Vertex>> adjacencyList;
     int vertices;
 
     public Graph(int vertices)
@@ -36,7 +36,7 @@ public class Graph
 
     public void addEdge(Integer u, Integer v, Integer weight)
     {
-        adjacencyList.get(u).add(new Neighbour(v, weight));
+        adjacencyList.get(u).add(new Graph.Vertex(v, weight));
     }
 
     /*
@@ -74,10 +74,10 @@ public class Graph
     {
         for (int i = 0;i < vertices;i++)
         {
-            ArrayList<Neighbour> eachVertex = adjacencyList.get(i);
+            ArrayList<Graph.Vertex> eachVertex = adjacencyList.get(i);
 
             System.out.printf("%2d: ", i);
-            for (Neighbour neighbour : eachVertex) System.out.print(neighbour + " ");
+            for (Graph.Vertex v : eachVertex) System.out.print(v + " ");
             System.out.println();
         }
     }
@@ -92,7 +92,7 @@ public class Graph
     {
         if (u >= vertices) return false;
 
-        for (Neighbour neighbour: adjacencyList.get(u)) if (neighbour.destination == v) return true;
+        for (Graph.Vertex vertex : adjacencyList.get(u)) if (vertex.i == v) return true;
 
         return false;
     }
@@ -105,9 +105,9 @@ public class Graph
      * @param v destination vertex
      * @return Neighbour if found else returns null.
      */
-    Neighbour getNeighbour(int u, int v)
+    Graph.Vertex getNeighbour(int u, int v)
     {
-        for (Neighbour neighbour: adjacencyList.get(u)) if (neighbour.destination == v) return neighbour;
+        for (Graph.Vertex vertex : adjacencyList.get(u)) if (vertex.i == v) return vertex;
 
         return null;
     }

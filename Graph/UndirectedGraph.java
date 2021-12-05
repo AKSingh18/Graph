@@ -10,7 +10,7 @@ public class UndirectedGraph extends Graph
     @Override
     public void addEdge(Integer u, Integer v, Integer weight)
     {
-        adjacencyList.get(u).add(new Neighbour(v, weight));
-        adjacencyList.get(v).add(new Neighbour(u, weight));
+        adjacencyList.get(u).add(new Graph.Vertex(v, weight));
+        adjacencyList.get(v).add(new Graph.Vertex(u, weight));
     }
 }

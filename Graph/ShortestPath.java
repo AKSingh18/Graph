@@ -39,15 +39,15 @@ public class ShortestPath
         Arrays.fill(distance, Integer.MAX_VALUE);
         distance[source] = 0;
 
-        for (int vertex = 0;vertex < graph.vertices;vertex++)
+        for (int i = 0;i < graph.vertices;i++)
         {
             int minDistanceVertex = findMinDistanceVertex(distance, isVisited);
             isVisited[minDistanceVertex] = true;
 
-            for (Graph.Neighbour neighbour : graph.adjacencyList.get(minDistanceVertex))
+            for (Graph.Vertex v : graph.adjacencyList.get(minDistanceVertex))
             {
-                int destination = neighbour.destination;
-                int destinationDistance = neighbour.weight;
+                int destination = v.i;
+                int destinationDistance = v.w;
 
                 if (!isVisited[destination] && distance[minDistanceVertex]+destinationDistance < distance[destination])
                     distance[destination] = distance[minDistanceVertex]+destinationDistance;
@@ -68,12 +68,12 @@ public class ShortestPath
     {
         int minIndex = -1, minDistance = Integer.MAX_VALUE;
 
-        for (int vertex = 0;vertex < graph.vertices;vertex++)
+        for (int v = 0;v < graph.vertices;v++)
         {
-            if (!isVisited[vertex] && distance[vertex] <= minDistance)
+            if (!isVisited[v] && distance[v] <= minDistance)
             {
-                minDistance = distance[vertex];
-                minIndex = vertex;
+                minDistance = distance[v];
+                minIndex = v;
             }
         }
 
@@ -98,10 +98,10 @@ public class ShortestPath
         {
             for (int currentVertex = 0; currentVertex < graph.vertices; currentVertex++)
             {
-                for (Graph.Neighbour neighbour : graph.adjacencyList.get(currentVertex))
+                for (Graph.Vertex v : graph.adjacencyList.get(currentVertex))
                 {
-                    if (distance[currentVertex] != Integer.MAX_VALUE && distance[currentVertex]+ neighbour.weight < distance[neighbour.destination])
-                        distance[neighbour.destination] = distance[currentVertex]+ neighbour.weight;
+                    if (distance[currentVertex] != Integer.MAX_VALUE && distance[currentVertex]+ v.w < distance[v.i])
+                        distance[v.i] = distance[currentVertex]+ v.w;
                 }
             }
         }
@@ -115,9 +115,9 @@ public class ShortestPath
 
         for (int currentVertex = 0; currentVertex < graph.vertices; currentVertex++)
         {
-            for (Graph.Neighbour neighbour: graph.adjacencyList.get(currentVertex))
+            for (Graph.Vertex v : graph.adjacencyList.get(currentVertex))
             {
-                if (distance[currentVertex] != Integer.MAX_VALUE && distance[currentVertex]+ neighbour.weight < distance[neighbour.destination])
+                if (distance[currentVertex] != Integer.MAX_VALUE && distance[currentVertex]+ v.w < distance[v.i])
                     return null;
             }
         }
@@ -140,9 +140,9 @@ public class ShortestPath
 
         for (int source = 0; source < graph.adjacencyList.size(); source++)
         {
-            ArrayList<Graph.Neighbour> vertex = graph.adjacencyList.get(source);
+            ArrayList<Graph.Vertex> vertices = graph.adjacencyList.get(source);
 
-            for (Graph.Neighbour neighbour: vertex) distances[source][neighbour.destination] = neighbour.weight;
+            for (Graph.Vertex v: vertices) distances[source][v.i] = v.w;
         }
 
         for (int k = 0;k < graph.vertices;k++)
@@ -171,7 +171,7 @@ public class ShortestPath
 
         graph.vertices++;
         graph.adjacencyList.add(new ArrayList<>());
-        for (int i = 0;i < graph.vertices-1;i++) graph.adjacencyList.get(graph.vertices-1).add(new Graph.Neighbour(i, 0));
+        for (int i = 0;i < graph.vertices-1;i++) graph.adjacencyList.get(graph.vertices-1).add(new Graph.Vertex(i, 0));
 
         /* Step 2: Use bellmanford with the new vertex q as source, to find for each vertex v the minimum weight h(v) of
            a path from q to v. If this step detects a negative cycle, the algorithm is terminated. */
@@ -184,15 +184,12 @@ public class ShortestPath
 
         for (int u = 0;u < graph.vertices;u++)
         {
-            ArrayList<Graph.Neighbour> neighbours = graph.adjacencyList.get(u);
+            ArrayList<Graph.Vertex> vertices = graph.adjacencyList.get(u);
 
-            for (Graph.Neighbour neighbour: neighbours)
+            for (Graph.Vertex v: vertices)
             {
-                int v = neighbour.destination;
-                int w = neighbour.weight;
-
                 // new weight
-                neighbour.weight = w + h[u] - h[v];
+                v.w = v.w + h[u] - h[v.i];
             }
         }
 

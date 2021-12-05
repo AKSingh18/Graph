@@ -11,7 +11,7 @@ public class DirectedGraph extends Graph
     @Override
     public void addEdge(Integer u, Integer v, Integer weight)
     {
-        adjacencyList.get(u).add(new Neighbour(v, weight));
+        adjacencyList.get(u).add(new Graph.Vertex(v, weight));
     }
 
     private void setTranspose()
@@ -22,7 +22,7 @@ public class DirectedGraph extends Graph
 
         for (int i = 0;i < vertices;i++)
         {
-            for (Neighbour neighbour: adjacencyList.get(i)) transpose.addEdge(neighbour.destination, i, neighbour.weight);
+            for (Graph.Vertex v : adjacencyList.get(i)) transpose.addEdge(v.i, i, v.w);
         }
     }
 

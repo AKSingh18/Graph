@@ -43,13 +43,13 @@ public class GraphTraversal
             currentDistance++;
             int u = queue.remove();
 
-            for (Graph.Neighbour neighbour: graph.adjacencyList.get(u))
+            for (Graph.Vertex v : graph.adjacencyList.get(u))
             {
-                if (parent[neighbour.destination] == -1 && neighbour.weight > 0)
+                if (parent[v.i] == -1 && v.w > 0)
                 {
-                    parent[neighbour.destination] = u;
-                    distance[neighbour.destination] = currentDistance;
-                    queue.add(neighbour.destination);
+                    parent[v.i] = u;
+                    distance[v.i] = currentDistance;
+                    queue.add(v.i);
                 }
             }
         }
@@ -76,12 +76,12 @@ public class GraphTraversal
         {
             int u = queue.remove();
 
-            for (Graph.Neighbour neighbour: graph.adjacencyList.get(u))
+            for (Graph.Vertex v : graph.adjacencyList.get(u))
             {
-                if (parent[neighbour.destination] == -1 && neighbour.weight > 0)
+                if (parent[v.i] == -1 && v.w > 0)
                 {
-                    parent[neighbour.destination] = u;
-                    queue.add(neighbour.destination);
+                    parent[v.i] = u;
+                    queue.add(v.i);
                 }
             }
         }
