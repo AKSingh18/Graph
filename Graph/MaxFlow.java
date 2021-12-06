@@ -128,10 +128,12 @@ public class MaxFlow
     public int pushRelabel()
     {
         Graph residualGraph = constructResidualGraph();
+        LinkedList<Integer> queue = new LinkedList<>();
 
         // Step 1: Initialize pre-flow
         int[] e = new int[graph.vertices]; // to store excess flow
         int[] h = new int[graph.vertices]; // to store height of vertices
+        boolean[] inQueue = new boolean[graph.vertices];
 
         h[0] = graph.vertices;
 
@@ -141,31 +143,25 @@ public class MaxFlow
             residualGraph.getNeighbour(v.i, 0).w = v.w;
 
             e[v.i] = v.w;
+
+            if (v.i != graph.vertices-1)
+            {
+                queue.add(v.i);
+                inQueue[v.i] = true;
+            }
         }
 
         // Step 2: Update the pre-flow while there remains an applicable push or relabel operation
-        int u = getOverflowVertex(e);
-        while (u != -1)
+        while (!queue.isEmpty())
         {
-            relabel(residualGraph, u, h);
-            push(residualGraph, u, e, h);
+            int u = queue.removeFirst();
+            inQueue[u] = false;
 
-            u = getOverflowVertex(e);
+            relabel(residualGraph, u, h);
+            push(residualGraph, u, e, h, queue, inQueue);
         }
 
         return e[graph.vertices-1];
-    }
-
-    /**
-     *
-     * @param e excess flow array
-     * @return overflow vertex index if found else -1 if there are no overflowing vertices
-     */
-    private int getOverflowVertex(int[] e)
-    {
-        for (int i = 1; i < graph.vertices-1; i++) if (e[i] > 0) return i;
-
-        return -1;
     }
 
     /**
@@ -193,7 +189,8 @@ public class MaxFlow
      * @param e excess flow array
      * @param h height array
      */
-    private void push(Graph residualGraph, int u, int[] e, int[] h)
+    private void push(Graph residualGraph, int u, int[] e, int[] h, LinkedList<Integer> queue,
+                      boolean[] inQueue)
     {
         for (Graph.Vertex v : residualGraph.adjacencyList.get(u))
         {
@@ -210,7 +207,19 @@ public class MaxFlow
 
                 e[u] -= f;
                 e[v.i] += f;
+
+                if (!inQueue[v.i] && v.i != 0 && v.i != graph.vertices-1)
+                {
+                    queue.add(v.i);
+                    inQueue[v.i] = true;
+                }
             }
+        }
+
+        if (e[u] != 0)
+        {
+            queue.add(u);
+            inQueue[u] = true;
         }
     }
 }
