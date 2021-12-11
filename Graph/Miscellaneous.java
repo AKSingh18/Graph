@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Contains methods to find articulation points in the graph
+ * Contains methods to find articulation points and bridges in the graph
  */
 public class Miscellaneous
 {
@@ -70,5 +70,61 @@ public class Miscellaneous
         }
 
         if (parent[source] == -2 && children > 1) isAP[source] = true;
+    }
+
+    /**
+     * Test Link: https://practice.geeksforgeeks.org/problems/bridge-edge-in-graph/1#
+     *
+     * @return Array list of bridges. Each bridge is represented as an array list of size 2.
+     */
+    public ArrayList<ArrayList<Integer>> findBridges()
+    {
+        ArrayList<ArrayList<Integer>> bridges = new ArrayList<>();
+
+        time = 0;
+
+        int[] parent = new int[graph.vertices];
+        int[] lowLink = new int[graph.vertices];
+        int[] discovery = new int[graph.vertices];
+
+        Arrays.fill(parent, -1);
+
+        for (int i = 0;i < graph.vertices;i++)
+        {
+            if (parent[i] == -1)
+            {
+                parent[i] = -2;
+                DFS(i, parent, lowLink, discovery, bridges);
+            }
+        }
+
+        return bridges;
+    }
+
+    private void DFS(int source, int[] parent, int[] lowLink, int[] discovery,
+                     ArrayList<ArrayList<Integer>> bridges)
+    {
+        lowLink[source] = discovery[source] = time++;
+
+        for (Graph.Vertex v : graph.adjacencyList.get(source))
+        {
+            if (parent[v.i] == -1)
+            {
+                parent[v.i] = source;
+                DFS(v.i, parent, lowLink, discovery, bridges);
+
+                lowLink[source] = Math.min(lowLink[source], lowLink[v.i]);
+
+                if (lowLink[v.i] > discovery[source])
+                {
+                    ArrayList<Integer> edge = new ArrayList<>(2);
+                    edge.add(source);
+                    edge.add(v.i);
+
+                    bridges.add(edge);
+                }
+            }
+            else if (v.i != parent[source]) lowLink[source] = Math.min(lowLink[source], discovery[v.i]);
+        }
     }
 }
