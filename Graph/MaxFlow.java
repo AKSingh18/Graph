@@ -6,19 +6,16 @@ import java.util.LinkedList;
 public class MaxFlow
 {
     private final Graph graph;
+    private Graph residualGraph;
 
     public MaxFlow(Graph graph)
     {
         this.graph = graph;
     }
 
-    /**
-     *
-     * @return residual graph
-     */
-    private Graph constructResidualGraph()
+    private void initResidualGraph()
     {
-        Graph residualGraph = new Graph(graph.vertices);
+        residualGraph = new Graph(graph.vertices);
 
         // Construct residual graph
         for (int u = 0;u < graph.vertices;u++)
@@ -36,8 +33,6 @@ public class MaxFlow
                     residualGraph.addEdge(v.i, u, 0);
             }
         }
-
-        return residualGraph;
     }
 
     /**
@@ -49,7 +44,7 @@ public class MaxFlow
      */
     public int edmondsKarp(int source, int sink)
     {
-        Graph residualGraph = constructResidualGraph();
+        initResidualGraph();
 
         int[] parent;
         int maxFlow = 0;
@@ -127,7 +122,8 @@ public class MaxFlow
      */
     public int pushRelabel()
     {
-        Graph residualGraph = constructResidualGraph();
+        initResidualGraph();
+
         LinkedList<Integer> queue = new LinkedList<>();
 
         // Step 1: Initialize pre-flow
