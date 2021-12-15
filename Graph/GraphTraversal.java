@@ -89,4 +89,40 @@ public class GraphTraversal
         if (parent[destination] == -1) return null;
         else return parent;
     }
+
+    /**
+     * Finds all vertices reachable from the source vertex or traverses the graph from a given source vertex.
+     *
+     * Test Link: https://practice.geeksforgeeks.org/problems/depth-first-traversal-for-a-graph/1#
+     *
+     * @param source source vertex
+     * @return parent array
+     */
+    public int[] DFS(int source)
+    {
+        /* In parent, a value of
+               1: -1 denotes an unvisited vertex.
+               2: -2 denotes a root vertex which is the source
+               3: Other than that it denotes parent
+         */
+        int[] parent = new int[graph.vertices];
+        Arrays.fill(parent, -1);
+
+        parent[source] = -2;
+        DFS(source, parent);
+
+        return parent;
+    }
+
+    private void DFS(int source, int[] parent)
+    {
+        for (Graph.Vertex v : graph.adjacencyList.get(source))
+        {
+            if (parent[v.i] == -1)
+            {
+                parent[v.i] = source;
+                DFS(v.i, parent);
+            }
+        }
+    }
 }
