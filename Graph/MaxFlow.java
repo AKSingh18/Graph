@@ -1,5 +1,6 @@
 package Graph;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 
@@ -216,6 +217,78 @@ public class MaxFlow
         {
             queue.add(u);
             inQueue[u] = true;
+        }
+    }
+
+    /**
+     *
+     * @param source source
+     * @param sink sink
+     * @return ArrayList of edges in min cut. Each edge is represented as an ArrayList of size 2
+     */
+    public ArrayList<ArrayList<Integer>> minCutEdges(int source, int sink)
+    {
+        ArrayList<ArrayList<Integer>> edges = new ArrayList<>();
+
+        // Step 1: Run edmonds karp to obtain the final residual graph
+        edmondsKarp(source, sink);
+
+        // Step 2: Obtain all vertices reachable from source
+        int[] parent = DFS(source);
+
+        // Step 3: Print all the edges from visited vertices to unvisited vertices in the parent array
+        for (int u = 0; u < parent.length;u++)
+        {
+            if (parent[u] != -1)
+            {
+                // graph will be used for printing the edges since residual graph also consists
+                // of residual edges
+                for (Graph.Vertex v : graph.adjacencyList.get(u))
+                {
+                    if (parent[v.i] == -1)
+                    {
+                        ArrayList<Integer> edge = new ArrayList<>(2);
+
+                        edge.add(u);
+                        edge.add(v.i);
+
+                        edges.add(edge);
+                    }
+                }
+            }
+        }
+
+        return edges;
+    }
+
+    /**
+     * Traverses the residual graph starting from source.
+     *
+     * Note: An edge of weight 0 is not considered as a valid edge for traversal.
+     *
+     * @param source source vertex
+     * @return parent array
+     */
+    private int[] DFS(int source)
+    {
+        int[] parent = new int[graph.vertices];
+        Arrays.fill(parent, -1);
+
+        parent[source] = -2;
+        DFS(source, parent);
+
+        return parent;
+    }
+
+    private void DFS(int source, int[] parent)
+    {
+        for (Graph.Vertex v : residualGraph.adjacencyList.get(source))
+        {
+            if (parent[v.i] == -1 && v.w > 0)
+            {
+                parent[v.i] = source;
+                DFS(v.i, parent);
+            }
         }
     }
 }
