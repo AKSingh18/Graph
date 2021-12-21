@@ -12,22 +12,17 @@ public class EulerTrailAndCycle
     public static class UG
     {
         UndirectedGraph graph;
+        private final int[] degree;
 
         public UG(UndirectedGraph graph)
         {
             this.graph = graph;
+            degree = new int[graph.vertices];
         }
 
-        private int[] getDegree()
+        private void initDegree()
         {
-            int[] degree = new int[graph.vertices];
-
-            for (int u = 0;u < graph.vertices;u++)
-            {
-               degree[u] = graph.adjacencyList.get(u).size();
-            }
-
-            return degree;
+            for (int u = 0; u < graph.vertices; u++) degree[u] = graph.adjacencyList.get(u).size();
         }
 
         /**
@@ -38,10 +33,10 @@ public class EulerTrailAndCycle
         public boolean hasCycle()
         {
             // Step 1: Calculate degree of all the vertices
-            int[] degree = getDegree();
+            initDegree();
 
             // Step 2: If the degree of all the vertices is not zero, return false
-            for (int i = 0;i < graph.vertices;i++) if (degree[i]%2 != 0) return false;
+            for (int i = 0; i < graph.vertices; i++) if (degree[i] % 2 != 0) return false;
 
             // Step 3: Find the connected components in the graph
             ArrayList<ArrayList<Integer>> connectedComponents =
@@ -81,12 +76,12 @@ public class EulerTrailAndCycle
         public boolean hasTrail()
         {
             // Step 1: Calculate degree of all the vertices
-            int[] degree = getDegree();
+            initDegree();
 
             int oddDegree = 0;
 
             // Step 2: Count number of vertices with odd degree
-            for (int i = 0;i < graph.vertices;i++) if (degree[i]%2 != 0) oddDegree++;
+            for (int i = 0; i < graph.vertices; i++) if (degree[i] % 2 != 0) oddDegree++;
 
             // Step 3: Return false if odd degree vertices count is neither 0 nor 2
             if (!(oddDegree == 0 || oddDegree == 2)) return false;
@@ -125,29 +120,32 @@ public class EulerTrailAndCycle
     public static class DG
     {
         DirectedGraph graph;
+        /* 2D array to store in degree and out degree of all the vertices.
+               row 1: in degree
+               row 2: out degree
+         */
+        private final int[][] degree;
 
-        public DG(DirectedGraph graph) {
+        public DG(DirectedGraph graph)
+        {
             this.graph = graph;
+            degree = new int[2][graph.vertices];
         }
 
-        /**
-         *
-         * @return 2D array consisting of in degree and out degree of all the vertices.
-         *         row 1: in degree
-         *         row 2: out degree
-         */
-        private int[][] getDegree()
+        private void initDegree()
         {
             int[] inDegree = new int[graph.vertices];
             int[] outDegree = new int[graph.vertices];
 
-            for (int u = 0; u < graph.vertices; u++) {
+            for (int u = 0; u < graph.vertices; u++)
+            {
                 outDegree[u] = graph.adjacencyList.get(u).size();
 
                 for (Graph.Vertex v : graph.adjacencyList.get(u)) inDegree[v.i]++;
             }
 
-            return new int[][]{inDegree, outDegree};
+            degree[0] = inDegree;
+            degree[1] = outDegree;
         }
 
         /**
@@ -157,7 +155,8 @@ public class EulerTrailAndCycle
         public boolean hasCycle()
         {
             // Step 1: Calculate in degree and out degree of all the vertices
-            int[][] degree = getDegree();
+            initDegree();
+
             int[] inDegree = degree[0];
             int[] outDegree = degree[1];
 
@@ -201,7 +200,8 @@ public class EulerTrailAndCycle
         public boolean hasTrail()
         {
             // Step 1: Calculate in degree and out degree of all the vertices
-            int[][] degree = getDegree();
+            initDegree();
+
             int[] inDegree = degree[0];
             int[] outDegree = degree[1];
 
