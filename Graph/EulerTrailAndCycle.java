@@ -1,6 +1,8 @@
 package Graph;
 
 import java.util.ArrayList;
+import java.util.Collections;
+
 import static Graph.Graph.Vertex;
 
 /**
@@ -340,6 +342,78 @@ public class EulerTrailAndCycle
             }
 
             return true;
+        }
+
+        /**
+         *
+         * @return null if no trail is possible else ArrayList of integers containing a valid euler trail
+         */
+        public ArrayList<Integer> findTrail()
+        {
+            if (hasCycle()) return findCycle();
+            if (!hasTrail()) return null;
+
+            ArrayList<Integer> trail = new ArrayList<>();
+            int a = -1; // Start vertex
+
+            // Set a
+            for (int i = 0;i < graph.vertices;i++)
+            {
+                if (degree[1][i]-degree[0][i] == 1)
+                {
+                    a = i;
+                    break;
+                }
+            }
+
+            // Copy the original graph
+            DirectedGraph tempGraph = new DirectedGraph(graph);
+            DFS(a, tempGraph, trail);
+
+            // reverse the elements for correct order
+            Collections.reverse(trail);
+
+            return trail;
+        }
+
+        /**
+         *
+         * @return null if no cycle is possible else ArrayList of integers containing a valid euler cycle
+         */
+        public ArrayList<Integer> findCycle()
+        {
+            if (!hasCycle()) return null;
+
+            ArrayList<Integer> cycle = new ArrayList<>();
+
+            // Copy the original graph
+            DirectedGraph tempGraph = new DirectedGraph(graph);
+            DFS(0, tempGraph, cycle);
+
+            // reverse the elements for correct order
+            Collections.reverse(cycle);
+
+            return cycle;
+        }
+
+        /**
+         *
+         * @param u source vertex
+         * @param tempGraph copy of original graph
+         * @param path ArrayList to store path
+         */
+        private void DFS(int u, DirectedGraph tempGraph, ArrayList<Integer> path)
+        {
+            // Get all the neighbouring vertices of u
+            ArrayList<Vertex> vertices = tempGraph.adjacencyList.get(u);
+
+            while (!vertices.isEmpty())
+            {
+                Vertex v = vertices.remove(vertices.size()-1);
+                DFS(v.i, tempGraph, path);
+            }
+
+            path.add(u);
         }
     }
 }
