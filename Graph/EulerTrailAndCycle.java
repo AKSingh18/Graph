@@ -1,6 +1,7 @@
 package Graph;
 
 import java.util.ArrayList;
+import static Graph.Graph.Vertex;
 
 /**
  *
@@ -114,6 +115,82 @@ public class EulerTrailAndCycle
             }
 
             return true;
+        }
+
+        /**
+         *
+         * @return null if no trail is possible else ArrayList of integers containing a valid euler trail
+         */
+        public ArrayList<Integer> findTrail()
+        {
+            if (hasCycle()) return findCycle();
+            if (!hasTrail()) return null;
+
+            ArrayList<Integer> trail = new ArrayList<>();
+            int a = -1; // Start vertex
+
+            // Set a
+            for (int i = 0;i < graph.vertices;i++)
+            {
+                if (degree[i]%2 != 0)
+                {
+                    a = i;
+                    break;
+                }
+            }
+
+            // Copy the original graph
+            UndirectedGraph tempGraph = new UndirectedGraph(graph);
+            DFS(a, tempGraph, trail);
+
+            return trail;
+        }
+
+        /**
+         *
+         * @return null if no cycle is possible else ArrayList of integers containing a valid euler cycle
+         */
+        public ArrayList<Integer> findCycle()
+        {
+            if (!hasCycle()) return null;
+
+            ArrayList<Integer> cycle = new ArrayList<>();
+
+            // Copy the original graph
+            UndirectedGraph tempGraph = new UndirectedGraph(graph);
+            DFS(0, tempGraph, cycle);
+
+            return cycle;
+        }
+
+        /**
+         *
+         * @param u source vertex
+         * @param tempGraph copy of original graph
+         * @param path ArrayList to store path
+         */
+        private void DFS(int u, UndirectedGraph tempGraph, ArrayList<Integer> path)
+        {
+            // Get all the neighbouring vertices of u
+            ArrayList<Vertex> vertices = tempGraph.adjacencyList.get(u);
+
+            while (!vertices.isEmpty())
+            {
+                /* In case of undirected graph, an edge from u-v will be present two times. Once in,
+                   neighbouring vertices of u and other in neighbouring vertices of v. Since, it should
+                   be traversed only one time. The latter occurrence will be removed.
+
+                    v:  u->v
+                   _v:  v->u
+                 */
+                Vertex v = vertices.remove(vertices.size()-1);
+                Vertex _v = tempGraph.getNeighbour(v.i, u);
+
+                tempGraph.adjacencyList.get(v.i).remove(_v);
+                DFS(v.i, tempGraph, path);
+            }
+
+            path.add(u);
         }
     }
 
