@@ -34,6 +34,15 @@ public class Graph
         for (int i = 0; i < vertices; i++) adjacencyList.add(new ArrayList<>());
     }
 
+    public Graph(Graph graph)
+    {
+        this.vertices = graph.vertices;
+        this.adjacencyList = new ArrayList<>(vertices);
+
+        for (ArrayList<Graph.Vertex> vertices : graph.adjacencyList)
+            this.adjacencyList.add(new ArrayList<>(vertices));
+    }
+
     public void addEdge(Integer u, Integer v, Integer weight)
     {
         adjacencyList.get(u).add(new Graph.Vertex(v, weight));

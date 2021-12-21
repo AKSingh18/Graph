@@ -8,6 +8,11 @@ public class DirectedGraph extends Graph
         super(vertices);
     }
 
+    public DirectedGraph(DirectedGraph graph)
+    {
+        super(graph);
+    }
+
     @Override
     public void addEdge(Integer u, Integer v, Integer weight)
     {

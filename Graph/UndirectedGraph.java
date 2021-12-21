@@ -7,6 +7,11 @@ public class UndirectedGraph extends Graph
         super(vertices);
     }
 
+    public UndirectedGraph(UndirectedGraph graph)
+    {
+        super(graph);
+    }
+
     @Override
     public void addEdge(Integer u, Integer v, Integer weight)
     {
