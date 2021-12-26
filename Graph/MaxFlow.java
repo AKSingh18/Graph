@@ -114,6 +114,107 @@ public class MaxFlow
     }
 
     /**
+     * Test Link: https://practice.geeksforgeeks.org/problems/find-the-maximum-flow2126/1
+     *
+     * @param source source
+     * @param sink sink
+     * @return max flow
+     */
+    public int dinics(int source, int sink)
+    {
+        initResidualGraph();
+
+        int maxFlow = 0;
+
+        int[] level;
+        while ((level = BFS(source, sink)) != null)
+        {
+            int flow;
+            while ((flow = DFS(source, sink, level, Integer.MAX_VALUE)) != -1) maxFlow += flow;
+        }
+
+        return maxFlow;
+    }
+
+    /**
+     * Builds up a level array depending upon current state of residual graph
+     *
+     * @param source source
+     * @param sink sink
+     * @return null if no path exists from source to sink
+     *         else an array denoting level of each vertex
+     */
+    private int[] BFS(int source, int sink)
+    {
+        // Besides, denoting the level for each vertex, level array is also used to check if a vertex
+        // has been visited before or not
+        int[] level = new int[graph.vertices];
+        Arrays.fill(level, -1);
+
+        LinkedList<Integer> queue = new LinkedList<>();
+
+        queue.add(source);
+        level[source] = 0;
+
+        while (!queue.isEmpty() && level[sink] == -1)
+        {
+            int u = queue.removeFirst();
+
+            for (Graph.Vertex v : residualGraph.adjacencyList.get(u))
+            {
+                if (level[v.i] == -1 && v.w > 0)
+                {
+                    queue.add(v.i);
+                    level[v.i] = level[u]+1;
+                }
+            }
+        }
+
+        if (level[sink] == -1) return null;
+        else return level;
+    }
+
+
+    /**
+     * Sends flow from source to sink using residual graph and level array
+     *
+     * @param u parent vertex
+     * @param sink sink
+     * @param level level array
+     * @param flow current flow
+     * @return positive integer denoting flow from source to vertex if possible else -1
+     */
+    private int DFS(int u, int sink, int[] level, int flow)
+    {
+        if (u == sink) return flow;
+
+        for (Graph.Vertex v : residualGraph.adjacencyList.get(u))
+        {
+            if (level[v.i] == level[u]+1 && v.w > 0)
+            {
+                /* Obtain the bottleneck flow of the path u -> v -> .... -> sink. Initially u is source.
+                   If no such path exists, -1 is returned.
+
+                   In the below DFS call, @param flow is passed Math.min(flow, v.w). Since, the flow that
+                   can be pushed from u -> v is the minimum of present flow and residual capacity of edge
+                   u -> v which is v.w.
+                 */
+                int bottleNeck = DFS(v.i, sink, level, Math.min(flow, v.w));
+
+                if (bottleNeck > 0)
+                {
+                    residualGraph.getNeighbour(v.i, u).w += bottleNeck;
+                    v.w -= bottleNeck;
+
+                    return bottleNeck;
+                }
+            }
+        }
+
+        return -1;
+    }
+
+    /**
      *
      * The method uses push-relabel algorithm to find max flow. It assumes 0 as source and vertices-1 as sink.
      *
