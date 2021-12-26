@@ -211,7 +211,7 @@ public class MaxFlow
 
     /**
      *
-     * The method uses push-relabel algorithm to find max flow. It assumes 0 as source and vertices-1 as sink.
+     * The method uses push-relabel algorithm to find max flow.
      *
      * Test Link: https://practice.geeksforgeeks.org/problems/find-the-maximum-flow2126/1
      *
@@ -228,16 +228,16 @@ public class MaxFlow
         int[] h = new int[graph.vertices]; // to store height of vertices
         boolean[] inQueue = new boolean[graph.vertices];
 
-        h[0] = graph.vertices;
+        h[source] = graph.vertices;
 
-        for (Graph.Vertex v : graph.adjacencyList.get(0))
+        for (Graph.Vertex v : graph.adjacencyList.get(source))
         {
-            residualGraph.getNeighbour(0, v.i).w = 0;
-            residualGraph.getNeighbour(v.i, 0).w = v.w;
+            residualGraph.getNeighbour(source, v.i).w = 0;
+            residualGraph.getNeighbour(v.i, source).w = v.w;
 
             e[v.i] = v.w;
 
-            if (v.i != graph.vertices-1)
+            if (v.i != sink)
             {
                 queue.add(v.i);
                 inQueue[v.i] = true;
@@ -250,20 +250,19 @@ public class MaxFlow
             int u = queue.removeFirst();
             inQueue[u] = false;
 
-            relabel(residualGraph, u, h);
-            push(residualGraph, u, e, h, queue, inQueue);
+            relabel(u, h);
+            push(u, e, h, queue, inQueue);
         }
 
-        return e[graph.vertices-1];
+        return e[sink];
     }
 
     /**
      *
-     * @param residualGraph residual graph
      * @param u overflowing vertex
      * @param h height array
      */
-    private void relabel(Graph residualGraph, int u, int[] h)
+    private void relabel(int u, int[] h)
     {
         int minHeight = Integer.MAX_VALUE;
 
@@ -277,12 +276,11 @@ public class MaxFlow
 
     /**
      *
-     * @param residualGraph residual graph
      * @param u overflowing vertex
      * @param e excess flow array
      * @param h height array
      */
-    private void push(Graph residualGraph, int u, int[] e, int[] h, LinkedList<Integer> queue,
+    private void push(int u, int[] e, int[] h, LinkedList<Integer> queue,
                       boolean[] inQueue)
     {
         for (Graph.Vertex v : residualGraph.adjacencyList.get(u))
@@ -301,7 +299,7 @@ public class MaxFlow
                 e[u] -= f;
                 e[v.i] += f;
 
-                if (!inQueue[v.i] && v.i != 0 && v.i != graph.vertices-1)
+                if (!inQueue[v.i] && v.i != source && v.i != sink)
                 {
                     queue.add(v.i);
                     inQueue[v.i] = true;
