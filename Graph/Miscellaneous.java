@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Contains methods to find articulation points and bridges in the graph
+ * Contains methods to find
+ *     1: articulation points
+ *     2: bridges
+ *     3: maximum matching in bipartite graph
  */
 public class Miscellaneous
 {

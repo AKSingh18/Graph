@@ -177,7 +177,7 @@ public class MaxFlow
      * @param u parent vertex
      * @param level level array
      * @param flow current flow
-     * @return positive integer denoting flow from source to vertex if possible else -1
+     * @return positive integer denoting flow from source to sink if possible else -1
      */
     private int DFS(int u, int[] level, int flow)
     {
