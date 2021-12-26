@@ -6,12 +6,17 @@ import java.util.LinkedList;
 
 public class MaxFlow
 {
+    private final int source;
+    private final int sink;
+
     private final Graph graph;
     private Graph residualGraph;
 
-    public MaxFlow(Graph graph)
+    public MaxFlow(Graph graph, int source, int sink)
     {
         this.graph = graph;
+        this.source = source;
+        this.sink = sink;
     }
 
     private void initResidualGraph()
@@ -39,17 +44,15 @@ public class MaxFlow
     /**
      * Test Link: https://practice.geeksforgeeks.org/problems/find-the-maximum-flow2126/1
      *
-     * @param source source
-     * @param sink sink
      * @return maximum flow
      */
-    public int edmondsKarp(int source, int sink)
+    public int edmondsKarp()
     {
         initResidualGraph();
 
         int[] parent;
         int maxFlow = 0;
-        while ((parent = findAugmentedPath(source, sink, residualGraph)) != null)
+        while ((parent = findAugmentedPath()) != null)
         {
             int flow = Integer.MAX_VALUE;
             int currentVertex = sink;
@@ -80,12 +83,9 @@ public class MaxFlow
     /**
      * Uses BFS to find path from source to sink
      *
-     * @param source source vertex
-     * @param sink destination vertex
-     * @param residualGraph residual graph
      * @return parent[] if path is found else null
      */
-    private int[] findAugmentedPath(int source, int sink, Graph residualGraph)
+    private int[] findAugmentedPath()
     {
         LinkedList<Integer> queue = new LinkedList<>();
         int[] parent = new int[residualGraph.vertices];
@@ -116,21 +116,19 @@ public class MaxFlow
     /**
      * Test Link: https://practice.geeksforgeeks.org/problems/find-the-maximum-flow2126/1
      *
-     * @param source source
-     * @param sink sink
      * @return max flow
      */
-    public int dinics(int source, int sink)
+    public int dinics()
     {
         initResidualGraph();
 
         int maxFlow = 0;
 
         int[] level;
-        while ((level = BFS(source, sink)) != null)
+        while ((level = BFS()) != null)
         {
             int flow;
-            while ((flow = DFS(source, sink, level, Integer.MAX_VALUE)) != -1) maxFlow += flow;
+            while ((flow = DFS(source, level, Integer.MAX_VALUE)) != -1) maxFlow += flow;
         }
 
         return maxFlow;
@@ -139,12 +137,10 @@ public class MaxFlow
     /**
      * Builds up a level array depending upon current state of residual graph
      *
-     * @param source source
-     * @param sink sink
      * @return null if no path exists from source to sink
      *         else an array denoting level of each vertex
      */
-    private int[] BFS(int source, int sink)
+    private int[] BFS()
     {
         // Besides, denoting the level for each vertex, level array is also used to check if a vertex
         // has been visited before or not
@@ -179,12 +175,11 @@ public class MaxFlow
      * Sends flow from source to sink using residual graph and level array
      *
      * @param u parent vertex
-     * @param sink sink
      * @param level level array
      * @param flow current flow
      * @return positive integer denoting flow from source to vertex if possible else -1
      */
-    private int DFS(int u, int sink, int[] level, int flow)
+    private int DFS(int u, int[] level, int flow)
     {
         if (u == sink) return flow;
 
@@ -199,7 +194,7 @@ public class MaxFlow
                    can be pushed from u -> v is the minimum of present flow and residual capacity of edge
                    u -> v which is v.w.
                  */
-                int bottleNeck = DFS(v.i, sink, level, Math.min(flow, v.w));
+                int bottleNeck = DFS(v.i, level, Math.min(flow, v.w));
 
                 if (bottleNeck > 0)
                 {
@@ -323,16 +318,14 @@ public class MaxFlow
 
     /**
      *
-     * @param source source
-     * @param sink sink
      * @return ArrayList of edges in min cut. Each edge is represented as an ArrayList of size 2
      */
-    public ArrayList<ArrayList<Integer>> minCutEdges(int source, int sink)
+    public ArrayList<ArrayList<Integer>> minCutEdges()
     {
         ArrayList<ArrayList<Integer>> edges = new ArrayList<>();
 
         // Step 1: Run edmonds karp to obtain the final residual graph
-        edmondsKarp(source, sink);
+        edmondsKarp();
 
         // Step 2: Obtain all vertices reachable from source
         int[] parent = DFS(source);
@@ -367,27 +360,27 @@ public class MaxFlow
      *
      * Note: An edge of weight 0 is not considered as a valid edge for traversal.
      *
-     * @param source source vertex
+     * @param u source vertex
      * @return parent array
      */
-    private int[] DFS(int source)
+    private int[] DFS(int u)
     {
         int[] parent = new int[graph.vertices];
         Arrays.fill(parent, -1);
 
-        parent[source] = -2;
-        DFS(source, parent);
+        parent[u] = -2;
+        DFS(u, parent);
 
         return parent;
     }
 
-    private void DFS(int source, int[] parent)
+    private void DFS(int u, int[] parent)
     {
-        for (Graph.Vertex v : residualGraph.adjacencyList.get(source))
+        for (Graph.Vertex v : residualGraph.adjacencyList.get(u))
         {
             if (parent[v.i] == -1 && v.w > 0)
             {
-                parent[v.i] = source;
+                parent[v.i] = u;
                 DFS(v.i, parent);
             }
         }

@@ -190,7 +190,7 @@ public class Miscellaneous
         }
 
         // Run edmonds-karp on the flow graph to find the maximum matching
-        MaxFlow maxFlow = new MaxFlow(flowGraph);
-        return maxFlow.edmondsKarp(source, sink);
+        MaxFlow maxFlow = new MaxFlow(flowGraph, source, sink);
+        return maxFlow.edmondsKarp();
     }
 }
