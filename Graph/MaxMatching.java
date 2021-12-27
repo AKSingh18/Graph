@@ -24,9 +24,9 @@ public class MaxMatching
      * Example graph:
      *
      *    [L]     [R]
-     *     0 ----> 3
-     *     1 ----> 4
-     *     2 ----> 5
+     *     0 ----- 3
+     *     1 ----- 4
+     *     2 ----- 5
      *
      * Corresponding flow graph:
      *
