@@ -44,6 +44,8 @@ public class MaxMatching
      *
      *  Each edge has a unit weight.
      *
+     *  Test Link: https://practice.geeksforgeeks.org/problems/maximum-bipartite-matching/1#
+     *
      * @return Edges which are part of maximum matching. Each edge is represented as an ArrayList of size 2
      */
     public ArrayList<ArrayList<Integer>> maxMatchingEdges()
