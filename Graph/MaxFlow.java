@@ -19,6 +19,16 @@ public class MaxFlow
         this.sink = sink;
     }
 
+    /**
+     *
+     * @return Final residual graph after finding max flow
+     */
+    Graph getFinalResidualGraph()
+    {
+        dinics();
+        return residualGraph;
+    }
+
     private void initResidualGraph()
     {
         residualGraph = new Graph(graph.vertices);
