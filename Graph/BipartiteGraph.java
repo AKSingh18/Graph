@@ -18,9 +18,9 @@ import java.util.ArrayList;
  *     L = R = 3
  *
  *    [L]    [R]
- *     0 ---> 3
- *     1 ---> 4
- *     2 ---> 5
+ *     0 ---- 3
+ *     1 ---- 4
+ *     2 ---- 5
  *
  * NOTE: No check has been made in the addEdge method of the super class which prevents an addition of edge from
  *       R to L. This is the responsibility of the user.
@@ -42,6 +42,13 @@ public class BipartiteGraph extends Graph
 
         this.L = L;
         this.R = R;
+    }
+
+    @Override
+    public void addEdge(Integer u, Integer v, Integer weight)
+    {
+        adjacencyList.get(u).add(new Graph.Vertex(v, weight));
+        adjacencyList.get(v).add(new Graph.Vertex(u, weight));
     }
 
     @Override
