@@ -24,6 +24,8 @@ public class CycleDetection
          *
          * Uses union-find algorithm
          *
+         * Test Link: https://practice.geeksforgeeks.org/problems/detect-cycle-in-an-undirected-graph/1#
+         *
          * @return true if the graph has a cycle or else false
          */
         public boolean unionFind()
@@ -80,6 +82,8 @@ public class CycleDetection
         /**
          *
          * Uses DFS to find cycle in the input graph
+         *
+         * Test Link: https://practice.geeksforgeeks.org/problems/detect-cycle-in-an-undirected-graph/1#
          *
          * @return true if the graph has a cycle or else false
          */
