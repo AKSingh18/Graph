@@ -123,4 +123,63 @@ public class CycleDetection
             return false;
         }
     }
+
+    public static class DG
+    {
+        private final DirectedGraph dg;
+
+        public DG(DirectedGraph dg)
+        {
+            this.dg = dg;
+        }
+
+        /**
+         *
+         * Uses DFS to find cycle in the input graph
+         *
+         * Test Link: https://practice.geeksforgeeks.org/problems/detect-cycle-in-a-directed-graph/1#
+         *
+         * @return true if the graph has a cycle or else false
+         */
+        public boolean DFS()
+        {
+            int[] parent = new int[dg.vertices];
+            boolean[] onStack = new boolean[dg.vertices];
+            Arrays.fill(parent, -1);
+
+            for (int u = 0; u < dg.vertices; u++)
+            {
+                if (parent[u] == -1)
+                {
+                    parent[u] = -2;
+                    if (DFS(u, parent, onStack)) return true;
+                }
+            }
+
+            return false;
+        }
+
+        private boolean DFS(int u, int[] parent, boolean[] onStack)
+        {
+            onStack[u] = true;
+
+            for (Vertex v : dg.adjacencyList.get(u))
+            {
+                boolean hasCycle = false;
+
+                if (parent[v.i] == -1)
+                {
+                    parent[v.i] = u;
+                    hasCycle = DFS(v.i, parent, onStack);
+                }
+                else if (onStack[v.i]) hasCycle = true;
+
+                if (hasCycle) return true;
+            }
+
+            onStack[u] = false;
+
+            return false;
+        }
+    }
 }
