@@ -66,10 +66,13 @@ public class CycleDetection
             return false;
         }
 
-        // Makes u the parent of v
+        // Makes parent of u the parent of v
         private void union(int[] parent, int u, int v)
         {
-            parent[v] = u;
+            int x = find(parent, u);
+            int y = find(parent, v);
+
+            parent[y] = x;
         }
 
         // Returns the root parent of i
