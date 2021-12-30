@@ -9,7 +9,7 @@ import static Graph.Graph.Edge;
 
 public class MST
 {
-    private UndirectedGraph graph;
+    private final UndirectedGraph graph;
 
     public MST(UndirectedGraph graph)
     {
