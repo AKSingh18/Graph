@@ -398,7 +398,7 @@ public class EulerTrailAndCycle
 
         /**
          *
-         * @param u source vertex
+         * @param u parent vertex
          * @param tempGraph copy of original graph
          * @param path ArrayList to store path
          */

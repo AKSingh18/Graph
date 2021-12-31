@@ -95,10 +95,10 @@ public class GraphTraversal
      *
      * Test Link: https://practice.geeksforgeeks.org/problems/depth-first-traversal-for-a-graph/1#
      *
-     * @param source source vertex
+     * @param u parent vertex
      * @return parent array
      */
-    public int[] DFS(int source)
+    public int[] DFS(int u)
     {
         /* In parent, a value of
                1: -1 denotes an unvisited vertex.
@@ -108,19 +108,19 @@ public class GraphTraversal
         int[] parent = new int[graph.vertices];
         Arrays.fill(parent, -1);
 
-        parent[source] = -2;
-        DFS(source, parent);
+        parent[u] = -2;
+        DFS(u, parent);
 
         return parent;
     }
 
-    private void DFS(int source, int[] parent)
+    private void DFS(int u, int[] parent)
     {
-        for (Graph.Vertex v : graph.adjacencyList.get(source))
+        for (Graph.Vertex v : graph.adjacencyList.get(u))
         {
             if (parent[v.i] == -1)
             {
-                parent[v.i] = source;
+                parent[v.i] = u;
                 DFS(v.i, parent);
             }
         }

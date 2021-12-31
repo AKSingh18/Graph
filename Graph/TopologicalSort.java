@@ -42,24 +42,24 @@ public class TopologicalSort
     /**
      * Test Link: https://practice.geeksforgeeks.org/problems/depth-first-traversal-for-a-graph/1
      *
-     * @param source source
+     * @param u parent vertex
      * @param parent parent array
      * @param ordering stack to store vertices according to their finishing time. vertex with the largest
      *                 finishing time will be at the top upon completion
      */
-    private void DFS(int source, int[] parent, Stack<Integer> ordering)
+    private void DFS(int u, int[] parent, Stack<Integer> ordering)
     {
-        for (Graph.Vertex v : dg.adjacencyList.get(source))
+        for (Graph.Vertex v : dg.adjacencyList.get(u))
         {
             if (parent[v.i] == -1)
             {
-                parent[v.i] = source;
+                parent[v.i] = u;
                 DFS(v.i, parent, ordering);
             }
         }
 
         // On finishing the exploration of the vertex source, add it the stack
-        ordering.add(source);
+        ordering.add(u);
     }
 
     /**

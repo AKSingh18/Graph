@@ -45,12 +45,12 @@ public class ConnectedComponents
         }
 
         // Finds a connected component using DFS
-        private void findConnectedComponent(int source, boolean[] isVisited, ArrayList<Integer> component)
+        private void findConnectedComponent(int u, boolean[] isVisited, ArrayList<Integer> component)
         {
-            isVisited[source] = true;
-            component.add(source);
+            isVisited[u] = true;
+            component.add(u);
 
-            for (Graph.Vertex v : ug.adjacencyList.get(source))
+            for (Graph.Vertex v : ug.adjacencyList.get(u))
             {
                 if (!isVisited[v.i]) findConnectedComponent(v.i, isVisited, component);
             }
@@ -130,35 +130,35 @@ public class ConnectedComponents
         /**
          * Test Link: https://practice.geeksforgeeks.org/problems/depth-first-traversal-for-a-graph/1
          *
-         * @param source source
+         * @param u parent vertex
          * @param parent parent array
          * @param ordering stack to store vertices according to their finishing time. vertex with the largest
          *                 finishing time will be at the top upon completion
          */
-        private void DFS(int source, int[] parent, Stack<Integer> ordering)
+        private void DFS(int u, int[] parent, Stack<Integer> ordering)
         {
-            for (Graph.Vertex v : dg.adjacencyList.get(source))
+            for (Graph.Vertex v : dg.adjacencyList.get(u))
             {
                 if (parent[v.i] == -1)
                 {
-                    parent[v.i] = source;
+                    parent[v.i] = u;
                     DFS(v.i, parent, ordering);
                 }
             }
 
             // On finishing the exploration of the vertex source, add it the stack
-            ordering.add(source);
+            ordering.add(u);
         }
 
-        private void findConnectedComponent(DirectedGraph transpose, int source, int[] parent, ArrayList<Integer> connectedComponent)
+        private void findConnectedComponent(DirectedGraph transpose, int u, int[] parent, ArrayList<Integer> connectedComponent)
         {
-            connectedComponent.add(source);
+            connectedComponent.add(u);
 
-            for (Graph.Vertex v : transpose.adjacencyList.get(source))
+            for (Graph.Vertex v : transpose.adjacencyList.get(u))
             {
                 if (parent[v.i] == -1)
                 {
-                    parent[v.i] = source;
+                    parent[v.i] = u;
                     findConnectedComponent(transpose, v.i, parent, connectedComponent);
                 }
             }
@@ -191,28 +191,28 @@ public class ConnectedComponents
             return scc;
         }
 
-        private void tarjansDFS(int source, int[] discovery, int[] lowLink, boolean[] onStack, Stack<Integer> stack,
+        private void tarjansDFS(int u, int[] discovery, int[] lowLink, boolean[] onStack, Stack<Integer> stack,
                                 ArrayList<ArrayList<Integer>> scc)
         {
-            discovery[source] = time;
-            lowLink[source] = time;
-            onStack[source] = true;
-            stack.add(source);
+            discovery[u] = time;
+            lowLink[u] = time;
+            onStack[u] = true;
+            stack.add(u);
 
             time++;
 
-            for (Graph.Vertex v : dg.adjacencyList.get(source))
+            for (Graph.Vertex v : dg.adjacencyList.get(u))
             {
                 if (discovery[v.i] == -1) tarjansDFS(v.i, discovery, lowLink, onStack, stack, scc);
-                if (onStack[v.i]) lowLink[source] = Math.min(lowLink[source], lowLink[v.i]);
+                if (onStack[v.i]) lowLink[u] = Math.min(lowLink[u], lowLink[v.i]);
             }
 
-            if (lowLink[source] == discovery[source])
+            if (lowLink[u] == discovery[u])
             {
                 ArrayList<Integer> component = new ArrayList<>();
 
                 int v = -1;
-                while (v != source)
+                while (v != u)
                 {
                     v = stack.pop();
 

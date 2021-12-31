@@ -50,28 +50,28 @@ public class CriticalPointsAndBridges
         return points;
     }
 
-    private void DFS(int source, int[] parent, int[] lowLink, int[] discovery, boolean[] isAP)
+    private void DFS(int u, int[] parent, int[] lowLink, int[] discovery, boolean[] isAP)
     {
         int children = 0;
 
-        lowLink[source] = discovery[source] = time++;
+        lowLink[u] = discovery[u] = time++;
 
-        for (Graph.Vertex v : ug.adjacencyList.get(source))
+        for (Graph.Vertex v : ug.adjacencyList.get(u))
         {
             if (parent[v.i] == -1)
             {
                 children++;
-                parent[v.i] = source;
+                parent[v.i] = u;
                 DFS(v.i, parent, lowLink, discovery, isAP);
 
-                lowLink[source] = Math.min(lowLink[source], lowLink[v.i]);
+                lowLink[u] = Math.min(lowLink[u], lowLink[v.i]);
 
-                if (parent[source] != -2 && lowLink[v.i] >= discovery[source]) isAP[source] = true;
+                if (parent[u] != -2 && lowLink[v.i] >= discovery[u]) isAP[u] = true;
             }
-            else if (v.i != parent[source]) lowLink[source] = Math.min(lowLink[source], discovery[v.i]);
+            else if (v.i != parent[u]) lowLink[u] = Math.min(lowLink[u], discovery[v.i]);
         }
 
-        if (parent[source] == -2 && children > 1) isAP[source] = true;
+        if (parent[u] == -2 && children > 1) isAP[u] = true;
     }
 
     /**
@@ -103,30 +103,30 @@ public class CriticalPointsAndBridges
         return bridges;
     }
 
-    private void DFS(int source, int[] parent, int[] lowLink, int[] discovery,
+    private void DFS(int u, int[] parent, int[] lowLink, int[] discovery,
                      ArrayList<ArrayList<Integer>> bridges)
     {
-        lowLink[source] = discovery[source] = time++;
+        lowLink[u] = discovery[u] = time++;
 
-        for (Graph.Vertex v : ug.adjacencyList.get(source))
+        for (Graph.Vertex v : ug.adjacencyList.get(u))
         {
             if (parent[v.i] == -1)
             {
-                parent[v.i] = source;
+                parent[v.i] = u;
                 DFS(v.i, parent, lowLink, discovery, bridges);
 
-                lowLink[source] = Math.min(lowLink[source], lowLink[v.i]);
+                lowLink[u] = Math.min(lowLink[u], lowLink[v.i]);
 
-                if (lowLink[v.i] > discovery[source])
+                if (lowLink[v.i] > discovery[u])
                 {
                     ArrayList<Integer> edge = new ArrayList<>(2);
-                    edge.add(source);
+                    edge.add(u);
                     edge.add(v.i);
 
                     bridges.add(edge);
                 }
             }
-            else if (v.i != parent[source]) lowLink[source] = Math.min(lowLink[source], discovery[v.i]);
+            else if (v.i != parent[u]) lowLink[u] = Math.min(lowLink[u], discovery[v.i]);
         }
     }
 }
