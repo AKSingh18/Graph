@@ -10,7 +10,7 @@ import java.util.Arrays;
  */
 public class Miscellaneous
 {
-    private final Graph graph;
+    private final UndirectedGraph graph;
 
     public Miscellaneous(UndirectedGraph graph)
     {
