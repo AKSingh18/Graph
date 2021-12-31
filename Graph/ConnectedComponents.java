@@ -14,11 +14,11 @@ public class ConnectedComponents
 {
     public static class UG
     {
-        UndirectedGraph graph;
+        UndirectedGraph ug;
 
-        public UG(UndirectedGraph graph)
+        public UG(UndirectedGraph ug)
         {
-            this.graph = graph;
+            this.ug = ug;
         }
 
         /**
@@ -29,9 +29,9 @@ public class ConnectedComponents
         public ArrayList<ArrayList<Integer>> connectedComponents()
         {
             ArrayList<ArrayList<Integer>> connectedComponents = new ArrayList<>();
-            boolean[] isVisited = new boolean[graph.vertices];
+            boolean[] isVisited = new boolean[ug.vertices];
 
-            for (int i = 0;i < graph.vertices;i++)
+            for (int i = 0; i < ug.vertices; i++)
             {
                 if (!isVisited[i])
                 {
@@ -50,7 +50,7 @@ public class ConnectedComponents
             isVisited[source] = true;
             component.add(source);
 
-            for (Graph.Vertex v : graph.adjacencyList.get(source))
+            for (Graph.Vertex v : ug.adjacencyList.get(source))
             {
                 if (!isVisited[v.i]) findConnectedComponent(v.i, isVisited, component);
             }
@@ -59,10 +59,10 @@ public class ConnectedComponents
 
     public static class DG
     {
-        DirectedGraph graph;
+        DirectedGraph dg;
 
-        public DG(DirectedGraph graph) {
-            this.graph = graph;
+        public DG(DirectedGraph dg) {
+            this.dg = dg;
         }
 
         /**
@@ -72,10 +72,10 @@ public class ConnectedComponents
         public ArrayList<ArrayList<Integer>> weaklyConnectedComponents()
         {
             // Step 1: Construct underlying undirected graph of the provided directed graph
-            UndirectedGraph undirectedGraph = new UndirectedGraph(graph.vertices);
-            for (int u = 0;u < graph.vertices;u++)
+            UndirectedGraph undirectedGraph = new UndirectedGraph(dg.vertices);
+            for (int u = 0; u < dg.vertices; u++)
             {
-                for (Graph.Vertex v : graph.adjacencyList.get(u)) undirectedGraph.addEdge(u, v.i, null);
+                for (Graph.Vertex v : dg.adjacencyList.get(u)) undirectedGraph.addEdge(u, v.i, null);
             }
 
             // Step 2: Return the connected components of the underlying undirected graph
@@ -89,12 +89,12 @@ public class ConnectedComponents
          */
         public ArrayList<ArrayList<Integer>> kosarajus()
         {
-            int[] parent = new int[graph.vertices];
+            int[] parent = new int[dg.vertices];
             Arrays.fill(parent, -1);
 
             Stack<Integer> ordering = new Stack<>();
 
-            for (int i = 0;i < graph.vertices;i++)
+            for (int i = 0; i < dg.vertices; i++)
             {
                 if (parent[i] == -1)
                 {
@@ -105,7 +105,7 @@ public class ConnectedComponents
 
             // Reset the parent array
             Arrays.fill(parent, -1);
-            DirectedGraph transpose =  graph.getTranspose();
+            DirectedGraph transpose =  dg.getTranspose();
 
             ArrayList<ArrayList<Integer>> connectedComponents = new ArrayList<>();
 
@@ -137,7 +137,7 @@ public class ConnectedComponents
          */
         private void DFS(int source, int[] parent, Stack<Integer> ordering)
         {
-            for (Graph.Vertex v : graph.adjacencyList.get(source))
+            for (Graph.Vertex v : dg.adjacencyList.get(source))
             {
                 if (parent[v.i] == -1)
                 {
@@ -179,13 +179,13 @@ public class ConnectedComponents
 
             ArrayList<ArrayList<Integer>> scc = new ArrayList<>();
 
-            int[] discovery = new int[graph.vertices];
-            int[] lowLink = new int[graph.vertices];
+            int[] discovery = new int[dg.vertices];
+            int[] lowLink = new int[dg.vertices];
             Arrays.fill(discovery, -1);
 
-            for (int u = 0;u < graph.vertices;u++)
+            for (int u = 0; u < dg.vertices; u++)
             {
-                if (discovery[u] == -1) tarjansDFS(u, discovery, lowLink, new boolean[graph.vertices], new Stack<>(), scc);
+                if (discovery[u] == -1) tarjansDFS(u, discovery, lowLink, new boolean[dg.vertices], new Stack<>(), scc);
             }
 
             return scc;
@@ -201,7 +201,7 @@ public class ConnectedComponents
 
             time++;
 
-            for (Graph.Vertex v : graph.adjacencyList.get(source))
+            for (Graph.Vertex v : dg.adjacencyList.get(source))
             {
                 if (discovery[v.i] == -1) tarjansDFS(v.i, discovery, lowLink, onStack, stack, scc);
                 if (onStack[v.i]) lowLink[source] = Math.min(lowLink[source], lowLink[v.i]);

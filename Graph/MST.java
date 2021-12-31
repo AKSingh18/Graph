@@ -9,11 +9,11 @@ import static Graph.Graph.Edge;
 
 public class MST
 {
-    private final UndirectedGraph graph;
+    private final UndirectedGraph ug;
 
-    public MST(UndirectedGraph graph)
+    public MST(UndirectedGraph ug)
     {
-        this.graph = graph;
+        this.ug = ug;
     }
 
     /**
@@ -26,7 +26,7 @@ public class MST
         System.out.println("Edge\tWeight");
         for (int i = 1;i < parent.length;i++)
         {
-            System.out.printf("%2d-%-2d\t%3d",parent[i], i, graph.getNeighbour(parent[i], i).w);
+            System.out.printf("%2d-%-2d\t%3d",parent[i], i, ug.getNeighbour(parent[i], i).w);
             System.out.println();
         }
     }
@@ -40,9 +40,9 @@ public class MST
      */
     public int[] primsAlgo()
     {
-        int[] parent = new int[graph.vertices];
-        int[] key = new int[graph.vertices];
-        boolean[] inMstSet = new boolean[graph.vertices];
+        int[] parent = new int[ug.vertices];
+        int[] key = new int[ug.vertices];
+        boolean[] inMstSet = new boolean[ug.vertices];
 
         Arrays.fill(parent, -1);
         Arrays.fill(key, Integer.MAX_VALUE);
@@ -50,12 +50,12 @@ public class MST
         key[0] = 0;
         parent[0] = -2;
 
-        for (int count = 0;count < graph.vertices-1;count++)
+        for (int count = 0; count < ug.vertices-1; count++)
         {
             int u = getMinKey(key, inMstSet);
             inMstSet[u] = true;
 
-            for (Graph.Vertex v : graph.adjacencyList.get(u))
+            for (Graph.Vertex v : ug.adjacencyList.get(u))
             {
                 if (!inMstSet[v.i] && v.w < key[v.i])
                 {
@@ -72,7 +72,7 @@ public class MST
     {
         int min = Integer.MAX_VALUE, minIndex = -1;
 
-        for (int v = 0; v < graph.vertices; v++)
+        for (int v = 0; v < ug.vertices; v++)
         {
             if (!inMstSet[v] && key[v] < min)
             {
@@ -96,7 +96,7 @@ public class MST
     {
         // Step 1: Construct edges array consisting of all the edges of the input graph
         ArrayList<Edge> edges = new ArrayList<>();
-        UndirectedGraph tempUG = new UndirectedGraph(graph);
+        UndirectedGraph tempUG = new UndirectedGraph(ug);
 
         for (int u = 0;u < tempUG.vertices;u++)
         {
@@ -132,7 +132,7 @@ public class MST
         });
 
         // Step 3: Keep picking the edge which do not form a cycle
-        int[] parent = new int[graph.vertices];
+        int[] parent = new int[ug.vertices];
         Arrays.fill(parent, -1);
 
         int weight = 0;

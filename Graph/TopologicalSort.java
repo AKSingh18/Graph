@@ -6,11 +6,11 @@ import java.util.Stack;
 
 public class TopologicalSort
 {
-    private final DirectedGraph graph;
+    private final DirectedGraph dg;
 
-    public TopologicalSort(DirectedGraph graph)
+    public TopologicalSort(DirectedGraph dg)
     {
-        this.graph = graph;
+        this.dg = dg;
     }
 
     /**
@@ -22,12 +22,12 @@ public class TopologicalSort
      */
     public Stack<Integer> topologicalOrdering()
     {
-        int[] parent = new int[graph.vertices];
+        int[] parent = new int[dg.vertices];
         Arrays.fill(parent, -1);
 
         Stack<Integer> ordering = new Stack<>();
 
-        for (int i = 0;i < graph.vertices;i++)
+        for (int i = 0; i < dg.vertices; i++)
         {
             if (parent[i] == -1)
             {
@@ -49,7 +49,7 @@ public class TopologicalSort
      */
     private void DFS(int source, int[] parent, Stack<Integer> ordering)
     {
-        for (Graph.Vertex v : graph.adjacencyList.get(source))
+        for (Graph.Vertex v : dg.adjacencyList.get(source))
         {
             if (parent[v.i] == -1)
             {
@@ -70,14 +70,14 @@ public class TopologicalSort
      */
     public LinkedList<Integer> kahns()
     {
-        int[] inDegree = new int[graph.vertices];
+        int[] inDegree = new int[dg.vertices];
         LinkedList<Integer> queue = new LinkedList<>();
         LinkedList<Integer> ordering = new LinkedList<>();
 
         // Find in-degree of all the vertices
-        for (int source = 0;source < graph.vertices;source++)
+        for (int source = 0; source < dg.vertices; source++)
         {
-            for (Graph.Vertex v : graph.adjacencyList.get(source)) inDegree[v.i]++;
+            for (Graph.Vertex v : dg.adjacencyList.get(source)) inDegree[v.i]++;
         }
 
         for (int i = 0; i < inDegree.length; i++)
@@ -93,7 +93,7 @@ public class TopologicalSort
         {
             int u = queue.removeFirst();
 
-            for (Graph.Vertex v : graph.adjacencyList.get(u))
+            for (Graph.Vertex v : dg.adjacencyList.get(u))
             {
                 /*
                 Decrease the in-degree of neighbouring vertex by 1. If in-degree now becomes 0, add it to the queue

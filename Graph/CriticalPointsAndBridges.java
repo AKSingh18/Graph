@@ -10,11 +10,11 @@ import java.util.Arrays;
  */
 public class CriticalPointsAndBridges
 {
-    private final UndirectedGraph graph;
+    private final UndirectedGraph ug;
 
-    public CriticalPointsAndBridges(UndirectedGraph graph)
+    public CriticalPointsAndBridges(UndirectedGraph ug)
     {
-        this.graph = graph;
+        this.ug = ug;
     }
 
     private int time;
@@ -29,14 +29,14 @@ public class CriticalPointsAndBridges
         ArrayList<Integer> points = new ArrayList<>();
         time = 0;
 
-        int[] parent = new int[graph.vertices];
-        int[] lowLink = new int[graph.vertices];
-        int[] discovery = new int[graph.vertices];
-        boolean[] isAP = new boolean[graph.vertices];
+        int[] parent = new int[ug.vertices];
+        int[] lowLink = new int[ug.vertices];
+        int[] discovery = new int[ug.vertices];
+        boolean[] isAP = new boolean[ug.vertices];
 
         Arrays.fill(parent, -1);
 
-        for (int i = 0;i < graph.vertices;i++)
+        for (int i = 0; i < ug.vertices; i++)
         {
             if (parent[i] == -1)
             {
@@ -45,7 +45,7 @@ public class CriticalPointsAndBridges
             }
         }
 
-        for (int i = 0;i < graph.vertices;i++) if (isAP[i]) points.add(i);
+        for (int i = 0; i < ug.vertices; i++) if (isAP[i]) points.add(i);
 
         return points;
     }
@@ -56,7 +56,7 @@ public class CriticalPointsAndBridges
 
         lowLink[source] = discovery[source] = time++;
 
-        for (Graph.Vertex v : graph.adjacencyList.get(source))
+        for (Graph.Vertex v : ug.adjacencyList.get(source))
         {
             if (parent[v.i] == -1)
             {
@@ -85,13 +85,13 @@ public class CriticalPointsAndBridges
 
         time = 0;
 
-        int[] parent = new int[graph.vertices];
-        int[] lowLink = new int[graph.vertices];
-        int[] discovery = new int[graph.vertices];
+        int[] parent = new int[ug.vertices];
+        int[] lowLink = new int[ug.vertices];
+        int[] discovery = new int[ug.vertices];
 
         Arrays.fill(parent, -1);
 
-        for (int i = 0;i < graph.vertices;i++)
+        for (int i = 0; i < ug.vertices; i++)
         {
             if (parent[i] == -1)
             {
@@ -108,7 +108,7 @@ public class CriticalPointsAndBridges
     {
         lowLink[source] = discovery[source] = time++;
 
-        for (Graph.Vertex v : graph.adjacencyList.get(source))
+        for (Graph.Vertex v : ug.adjacencyList.get(source))
         {
             if (parent[v.i] == -1)
             {

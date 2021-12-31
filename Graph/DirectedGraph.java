@@ -8,9 +8,9 @@ public class DirectedGraph extends Graph
         super(vertices);
     }
 
-    public DirectedGraph(DirectedGraph graph)
+    public DirectedGraph(DirectedGraph dg)
     {
-        super(graph);
+        super(dg);
     }
 
     @Override

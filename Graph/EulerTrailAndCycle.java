@@ -14,18 +14,18 @@ public class EulerTrailAndCycle
 {
     public static class UG
     {
-        UndirectedGraph graph;
+        UndirectedGraph ug;
         private final int[] degree;
 
-        public UG(UndirectedGraph graph)
+        public UG(UndirectedGraph ug)
         {
-            this.graph = graph;
-            degree = new int[graph.vertices];
+            this.ug = ug;
+            degree = new int[ug.vertices];
         }
 
         private void initDegree()
         {
-            for (int u = 0; u < graph.vertices; u++) degree[u] = graph.adjacencyList.get(u).size();
+            for (int u = 0; u < ug.vertices; u++) degree[u] = ug.adjacencyList.get(u).size();
         }
 
         /**
@@ -39,14 +39,14 @@ public class EulerTrailAndCycle
             initDegree();
 
             // Step 2: If the degree of all the vertices is not zero, return false
-            for (int i = 0; i < graph.vertices; i++) if (degree[i] % 2 != 0) return false;
+            for (int i = 0; i < ug.vertices; i++) if (degree[i] % 2 != 0) return false;
 
             // Step 3: Find the connected components in the graph
             ArrayList<ArrayList<Integer>> connectedComponents =
-                    new ConnectedComponents.UG(graph).connectedComponents();
+                    new ConnectedComponents.UG(ug).connectedComponents();
 
             // Step 4: Label the vertices with the component index they belong to
-            int[] componentIndex = new int[graph.vertices];
+            int[] componentIndex = new int[ug.vertices];
             for (int i = 0; i < connectedComponents.size(); i++)
             {
                 for (Integer v : connectedComponents.get(i)) componentIndex[v] = i;
@@ -56,13 +56,13 @@ public class EulerTrailAndCycle
             int componentID = -1;
             int i = 0;
 
-            while (i < graph.vertices && componentID == -1)
+            while (i < ug.vertices && componentID == -1)
             {
                 if (degree[i] != 0) componentID = componentIndex[i];
                 i++;
             }
 
-            while (i < graph.vertices)
+            while (i < ug.vertices)
             {
                 if (degree[i] != 0 && componentIndex[i] != componentID) return false;
                 i++;
@@ -84,17 +84,17 @@ public class EulerTrailAndCycle
             int oddDegree = 0;
 
             // Step 2: Count number of vertices with odd degree
-            for (int i = 0; i < graph.vertices; i++) if (degree[i] % 2 != 0) oddDegree++;
+            for (int i = 0; i < ug.vertices; i++) if (degree[i] % 2 != 0) oddDegree++;
 
             // Step 3: Return false if odd degree vertices count is neither 0 nor 2
             if (!(oddDegree == 0 || oddDegree == 2)) return false;
 
             // Step 4: Find the connected components in the graph
             ArrayList<ArrayList<Integer>> connectedComponents =
-                    new ConnectedComponents.UG(graph).connectedComponents();
+                    new ConnectedComponents.UG(ug).connectedComponents();
 
             // Step 5: Label the vertices with the component index they belong to
-            int[] componentIndex = new int[graph.vertices];
+            int[] componentIndex = new int[ug.vertices];
             for (int i = 0; i < connectedComponents.size(); i++)
             {
                 for (Integer v : connectedComponents.get(i)) componentIndex[v] = i;
@@ -104,13 +104,13 @@ public class EulerTrailAndCycle
             int componentID = -1;
             int i = 0;
 
-            while (i < graph.vertices && componentID == -1)
+            while (i < ug.vertices && componentID == -1)
             {
                 if (degree[i] != 0) componentID = componentIndex[i];
                 i++;
             }
 
-            while (i < graph.vertices)
+            while (i < ug.vertices)
             {
                 if (degree[i] != 0 && componentIndex[i] != componentID) return false;
                 i++;
@@ -132,7 +132,7 @@ public class EulerTrailAndCycle
             int a = -1; // Start vertex
 
             // Set a
-            for (int i = 0;i < graph.vertices;i++)
+            for (int i = 0; i < ug.vertices; i++)
             {
                 if (degree[i]%2 != 0)
                 {
@@ -142,7 +142,7 @@ public class EulerTrailAndCycle
             }
 
             // Copy the original graph
-            UndirectedGraph tempGraph = new UndirectedGraph(graph);
+            UndirectedGraph tempGraph = new UndirectedGraph(ug);
             DFS(a, tempGraph, trail);
 
             return trail;
@@ -159,7 +159,7 @@ public class EulerTrailAndCycle
             ArrayList<Integer> cycle = new ArrayList<>();
 
             // Copy the original graph
-            UndirectedGraph tempGraph = new UndirectedGraph(graph);
+            UndirectedGraph tempGraph = new UndirectedGraph(ug);
             DFS(0, tempGraph, cycle);
 
             return cycle;
@@ -198,29 +198,29 @@ public class EulerTrailAndCycle
 
     public static class DG
     {
-        DirectedGraph graph;
+        DirectedGraph dg;
         /* 2D array to store in degree and out degree of all the vertices.
                row 1: in degree
                row 2: out degree
          */
         private final int[][] degree;
 
-        public DG(DirectedGraph graph)
+        public DG(DirectedGraph dg)
         {
-            this.graph = graph;
-            degree = new int[2][graph.vertices];
+            this.dg = dg;
+            degree = new int[2][dg.vertices];
         }
 
         private void initDegree()
         {
-            int[] inDegree = new int[graph.vertices];
-            int[] outDegree = new int[graph.vertices];
+            int[] inDegree = new int[dg.vertices];
+            int[] outDegree = new int[dg.vertices];
 
-            for (int u = 0; u < graph.vertices; u++)
+            for (int u = 0; u < dg.vertices; u++)
             {
-                outDegree[u] = graph.adjacencyList.get(u).size();
+                outDegree[u] = dg.adjacencyList.get(u).size();
 
-                for (Graph.Vertex v : graph.adjacencyList.get(u)) inDegree[v.i]++;
+                for (Graph.Vertex v : dg.adjacencyList.get(u)) inDegree[v.i]++;
             }
 
             degree[0] = inDegree;
@@ -240,13 +240,13 @@ public class EulerTrailAndCycle
             int[] outDegree = degree[1];
 
             // Step 2: Check if in degree = out degree for all the vertices
-            for (int i = 0;i < graph.vertices;i++) if (inDegree[i] != outDegree[i]) return false;
+            for (int i = 0; i < dg.vertices; i++) if (inDegree[i] != outDegree[i]) return false;
 
             // Step 3: Calculate scc of the graph
-            ArrayList<ArrayList<Integer>> scc = new ConnectedComponents.DG(graph).tarjans();
+            ArrayList<ArrayList<Integer>> scc = new ConnectedComponents.DG(dg).tarjans();
 
             // Step 4: Label the vertices with the component index they belong to
-            int[] componentIndex = new int[graph.vertices];
+            int[] componentIndex = new int[dg.vertices];
             for (int i = 0; i < scc.size(); i++)
             {
                 for (Integer v : scc.get(i)) componentIndex[v] = i;
@@ -257,13 +257,13 @@ public class EulerTrailAndCycle
             int componentID = -1;
             int i = 0;
 
-            while (i < graph.vertices && componentID == -1)
+            while (i < dg.vertices && componentID == -1)
             {
                 if (inDegree[i] != 0 && inDegree[i]%2 == 0) componentID = componentIndex[i];
                 i++;
             }
 
-            while (i < graph.vertices)
+            while (i < dg.vertices)
             {
                 if (inDegree[i] != 0 && inDegree[i]%2 == 0 && componentIndex[i] != componentID) return false;
                 i++;
@@ -290,7 +290,7 @@ public class EulerTrailAndCycle
             a = b = -1;
 
             // Step 2: Find a and b
-            for (int i = 0;i < graph.vertices;i++)
+            for (int i = 0; i < dg.vertices; i++)
             {
                 if (outDegree[i]-inDegree[i] == 1)
                 {
@@ -308,17 +308,17 @@ public class EulerTrailAndCycle
             }
 
             // Step 3: Except a and b, all other vertices should have in degree = out degree
-            for (int i = 0;i < graph.vertices;i++)
+            for (int i = 0; i < dg.vertices; i++)
             {
                 if (i == a || i == b) continue;
                 if (inDegree[i] != outDegree[i]) return false;
             }
 
             // Step 4: Calculate weakly connected component of the graph
-            ArrayList<ArrayList<Integer>> wcc = new ConnectedComponents.DG(graph).weaklyConnectedComponents();
+            ArrayList<ArrayList<Integer>> wcc = new ConnectedComponents.DG(dg).weaklyConnectedComponents();
 
             // Step 5: Label the vertices with the component index they belong to
-            int[] componentIndex = new int[graph.vertices];
+            int[] componentIndex = new int[dg.vertices];
             for (int i = 0; i < wcc.size(); i++)
             {
                 for (Integer v : wcc.get(i)) componentIndex[v] = i;
@@ -329,13 +329,13 @@ public class EulerTrailAndCycle
             int componentID = -1;
             int i = 0;
 
-            while (i < graph.vertices && componentID == -1)
+            while (i < dg.vertices && componentID == -1)
             {
                 if (inDegree[i] != 0) componentID = componentIndex[i];
                 i++;
             }
 
-            while (i < graph.vertices)
+            while (i < dg.vertices)
             {
                 if (inDegree[i] != 0 && componentIndex[i] != componentID) return false;
                 i++;
@@ -357,7 +357,7 @@ public class EulerTrailAndCycle
             int a = -1; // Start vertex
 
             // Set a
-            for (int i = 0;i < graph.vertices;i++)
+            for (int i = 0; i < dg.vertices; i++)
             {
                 if (degree[1][i]-degree[0][i] == 1)
                 {
@@ -367,7 +367,7 @@ public class EulerTrailAndCycle
             }
 
             // Copy the original graph
-            DirectedGraph tempGraph = new DirectedGraph(graph);
+            DirectedGraph tempGraph = new DirectedGraph(dg);
             DFS(a, tempGraph, trail);
 
             // reverse the elements for correct order
@@ -387,7 +387,7 @@ public class EulerTrailAndCycle
             ArrayList<Integer> cycle = new ArrayList<>();
 
             // Copy the original graph
-            DirectedGraph tempGraph = new DirectedGraph(graph);
+            DirectedGraph tempGraph = new DirectedGraph(dg);
             DFS(0, tempGraph, cycle);
 
             // reverse the elements for correct order

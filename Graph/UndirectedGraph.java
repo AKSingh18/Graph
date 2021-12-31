@@ -7,9 +7,9 @@ public class UndirectedGraph extends Graph
         super(vertices);
     }
 
-    public UndirectedGraph(UndirectedGraph graph)
+    public UndirectedGraph(UndirectedGraph ug)
     {
-        super(graph);
+        super(ug);
     }
 
     @Override
