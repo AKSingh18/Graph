@@ -8,11 +8,11 @@ import java.util.Arrays;
  *     1: articulation points
  *     2: bridges
  */
-public class Miscellaneous
+public class CriticalPointsAndBridges
 {
     private final UndirectedGraph graph;
 
-    public Miscellaneous(UndirectedGraph graph)
+    public CriticalPointsAndBridges(UndirectedGraph graph)
     {
         this.graph = graph;
     }
