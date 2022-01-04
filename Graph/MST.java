@@ -26,7 +26,7 @@ public class MST
         System.out.println("Edge\tWeight");
         for (int i = 1;i < parent.length;i++)
         {
-            System.out.printf("%2d-%-2d\t%3d",parent[i], i, ug.getNeighbour(parent[i], i).w);
+            System.out.printf("%2d-%-2d\t%3d",parent[i], i, ug.getEdge(parent[i], i).w);
             System.out.println();
         }
     }
@@ -113,7 +113,7 @@ public class MST
                 */
 
                 Vertex v = vertices.remove(vertices.size()-1);
-                Vertex _v = tempUG.getNeighbour(v.i, u);
+                Vertex _v = tempUG.getEdge(v.i, u);
 
                 tempUG.adjacencyList.get(v.i).remove(_v);
 

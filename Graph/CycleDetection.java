@@ -50,7 +50,7 @@ public class CycleDetection
                      */
 
                     Vertex v = vertices.remove(vertices.size()-1);
-                    Vertex _v = tempUG.getNeighbour(v.i, u);
+                    Vertex _v = tempUG.getEdge(v.i, u);
 
                     if (find(parent, u) == find(parent, v.i)) return true;
                     else

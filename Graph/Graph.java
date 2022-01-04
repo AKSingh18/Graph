@@ -129,13 +129,14 @@ public class Graph
 
     /**
      * The method may produce NullPointerException. Usage of hasEdge(int, int) is suggested to avoid it.
+     *
      * @see Graph#hasEdge(int, int)
      *
      * @param u source vertex
      * @param v destination vertex
      * @return Neighbour if found else returns null.
      */
-    Graph.Vertex getNeighbour(int u, int v)
+    Graph.Vertex getEdge(int u, int v)
     {
         for (Graph.Vertex vertex : adjacencyList.get(u)) if (vertex.i == v) return vertex;
 

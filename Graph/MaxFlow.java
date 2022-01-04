@@ -40,7 +40,7 @@ public class MaxFlow
             {
                 // If forward edge already exists, update its weight
                 if (residualGraph.hasEdge(u, v.i))
-                    residualGraph.getNeighbour(u, v.i).w += v.w;
+                    residualGraph.getEdge(u, v.i).w += v.w;
                 // In case it does not exist, create one
                 else residualGraph.addEdge(u, v.i, v.w);
 
@@ -69,17 +69,17 @@ public class MaxFlow
 
             while (currentVertex != source)
             {
-                flow = Math.min(residualGraph.getNeighbour(parent[currentVertex], currentVertex).w, flow);
+                flow = Math.min(residualGraph.getEdge(parent[currentVertex], currentVertex).w, flow);
                 currentVertex = parent[currentVertex];
             }
 
             currentVertex = sink;
             while (currentVertex != source)
             {
-                residualGraph.getNeighbour(parent[currentVertex], currentVertex).w =
-                        Math.max(residualGraph.getNeighbour(parent[currentVertex], currentVertex).w -=flow, 0);
+                residualGraph.getEdge(parent[currentVertex], currentVertex).w =
+                        Math.max(residualGraph.getEdge(parent[currentVertex], currentVertex).w -=flow, 0);
 
-                residualGraph.getNeighbour(currentVertex, parent[currentVertex]).w += flow;
+                residualGraph.getEdge(currentVertex, parent[currentVertex]).w += flow;
 
                 currentVertex = parent[currentVertex];
             }
@@ -208,7 +208,7 @@ public class MaxFlow
 
                 if (bottleNeck > 0)
                 {
-                    residualGraph.getNeighbour(v.i, u).w += bottleNeck;
+                    residualGraph.getEdge(v.i, u).w += bottleNeck;
                     v.w -= bottleNeck;
 
                     return bottleNeck;
@@ -242,8 +242,8 @@ public class MaxFlow
 
         for (Graph.Vertex v : graph.adjacencyList.get(source))
         {
-            residualGraph.getNeighbour(source, v.i).w = 0;
-            residualGraph.getNeighbour(v.i, source).w = v.w;
+            residualGraph.getEdge(source, v.i).w = 0;
+            residualGraph.getEdge(v.i, source).w = v.w;
 
             e[v.i] = v.w;
 
@@ -304,7 +304,7 @@ public class MaxFlow
                 int f = Math.min(e[u], v.w);
 
                 v.w -= f;
-                residualGraph.getNeighbour(v.i,u).w += f;
+                residualGraph.getEdge(v.i,u).w += f;
 
                 e[u] -= f;
                 e[v.i] += f;

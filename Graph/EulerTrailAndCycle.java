@@ -186,7 +186,7 @@ public class EulerTrailAndCycle
                    _v:  v->u
                  */
                 Vertex v = vertices.remove(vertices.size()-1);
-                Vertex _v = tempGraph.getNeighbour(v.i, u);
+                Vertex _v = tempGraph.getEdge(v.i, u);
 
                 tempGraph.adjacencyList.get(v.i).remove(_v);
                 DFS(v.i, tempGraph, path);
