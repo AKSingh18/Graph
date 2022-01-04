@@ -225,7 +225,7 @@ public class MaxFlow
      *
      * @return maximum flow
      */
-    public int pushRelabel()
+    public int FIFOPushRelabel()
     {
         initResidualGraph();
 
