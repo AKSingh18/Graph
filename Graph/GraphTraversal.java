@@ -43,7 +43,7 @@ public class GraphTraversal
 
             for (Graph.Vertex v : graph.adjacencyList.get(u))
             {
-                if (parent[v.i] == -1 && v.w > 0)
+                if (parent[v.i] == -1)
                 {
                     parent[v.i] = u;
                     distance[v.i] = currentDistance;
@@ -76,7 +76,7 @@ public class GraphTraversal
 
             for (Graph.Vertex v : graph.adjacencyList.get(u))
             {
-                if (parent[v.i] == -1 && v.w > 0)
+                if (parent[v.i] == -1)
                 {
                     parent[v.i] = u;
                     queue.add(v.i);
