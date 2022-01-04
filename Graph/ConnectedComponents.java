@@ -22,7 +22,6 @@ public class ConnectedComponents
         }
 
         /**
-         * Test Link: https://www.hackerearth.com/problem/algorithm/connected-components-in-a-graph/
          *
          * @return ArrayList<ArrayList<Integer>> where each inner list represents a single connected component
          */
@@ -83,7 +82,6 @@ public class ConnectedComponents
         }
 
         /**
-         * Test Link: https://practice.geeksforgeeks.org/problems/strongly-connected-components-kosarajus-algo/1
          *
          * @return ArrayList<ArrayList<Integer>> where each inner list represents a single strongly connected component
          */
@@ -128,7 +126,6 @@ public class ConnectedComponents
         }
 
         /**
-         * Test Link: https://practice.geeksforgeeks.org/problems/depth-first-traversal-for-a-graph/1
          *
          * @param u parent vertex
          * @param parent parent array
@@ -168,8 +165,6 @@ public class ConnectedComponents
         private int time;
 
         /**
-         * Test Link: https://practice.geeksforgeeks.org/problems/strongly-connected-component-tarjanss-algo-1587115621/1#
-         *            https://www.codingninjas.com/codestudio/problems/strongly-connected-components-tarjan-s-algorithm_985311?leftPanelTab=1
          *
          * @return List of SCCs present in the directed graph
          */

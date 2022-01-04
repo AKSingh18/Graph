@@ -52,7 +52,6 @@ public class MaxFlow
     }
 
     /**
-     * Test Link: https://practice.geeksforgeeks.org/problems/find-the-maximum-flow2126/1
      *
      * @return maximum flow
      */
@@ -91,7 +90,8 @@ public class MaxFlow
     }
 
     /**
-     * Uses BFS to find path from source to sink
+     *
+     *  Uses BFS to find path from source to sink
      *
      * @return parent[] if path is found else null
      */
@@ -124,7 +124,6 @@ public class MaxFlow
     }
 
     /**
-     * Test Link: https://practice.geeksforgeeks.org/problems/find-the-maximum-flow2126/1
      *
      * @return max flow
      */
@@ -145,6 +144,7 @@ public class MaxFlow
     }
 
     /**
+     *
      * Builds up a level array depending upon current state of residual graph
      *
      * @return null if no path exists from source to sink
@@ -222,8 +222,6 @@ public class MaxFlow
     /**
      *
      * The method uses push-relabel algorithm to find max flow.
-     *
-     * Test Link: https://practice.geeksforgeeks.org/problems/find-the-maximum-flow2126/1
      *
      * @return maximum flow
      */

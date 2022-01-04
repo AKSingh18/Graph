@@ -6,6 +6,7 @@ import java.util.Arrays;
 import static Graph.Graph.Vertex;
 
 /**
+ *
  * This class contains two static nested classes UG (UndirectedGraph) and DG (DirectedGraph) which are used to
  * detect cycle in their respective graph type.
  */
@@ -23,8 +24,6 @@ public class CycleDetection
         /**
          *
          * Uses union-find algorithm
-         *
-         * Test Link: https://practice.geeksforgeeks.org/problems/detect-cycle-in-an-undirected-graph/1#
          *
          * @return true if the graph has a cycle or else false
          */
@@ -86,8 +85,6 @@ public class CycleDetection
          *
          * Uses DFS to find cycle in the input graph
          *
-         * Test Link: https://practice.geeksforgeeks.org/problems/detect-cycle-in-an-undirected-graph/1#
-         *
          * @return true if the graph has a cycle or else false
          */
         public boolean DFS()
@@ -139,8 +136,6 @@ public class CycleDetection
         /**
          *
          * Uses DFS to find cycle in the input graph
-         *
-         * Test Link: https://practice.geeksforgeeks.org/problems/detect-cycle-in-a-directed-graph/1#
          *
          * @return true if the graph has a cycle or else false
          */

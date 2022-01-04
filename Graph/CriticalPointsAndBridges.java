@@ -20,7 +20,6 @@ public class CriticalPointsAndBridges
     private int time;
 
     /**
-     * Test Link: https://practice.geeksforgeeks.org/problems/articulation-point-1/0/#
      *
      * @return array list containing all the articulation points present in the graph
      */
@@ -75,7 +74,6 @@ public class CriticalPointsAndBridges
     }
 
     /**
-     * Test Link: https://practice.geeksforgeeks.org/problems/bridge-edge-in-graph/1#
      *
      * @return Array list of bridges. Each bridge is represented as an array list of size 2.
      */

@@ -17,6 +17,7 @@ public class MST
     }
 
     /**
+     *
      * Prints the minimum spanning tree using prim's algorithm
      */
     public void printMST()
@@ -33,8 +34,6 @@ public class MST
 
     /**
      * Current implementation takes O(V^2) time.
-     *
-     * Test Link: https://practice.geeksforgeeks.org/problems/minimum-spanning-tree/1#
      *
      * @return parent array of the minimum spanning tree
      */
@@ -87,8 +86,6 @@ public class MST
     /**
      *
      * The following kruskals method uses union-find to detect cycle while constructing the MST
-     *
-     * Test Link: https://practice.geeksforgeeks.org/problems/minimum-spanning-tree/1#
      *
      * @return an integer denoting the sum of weights of the edges of the MST
      */

@@ -14,9 +14,8 @@ public class TopologicalSort
     }
 
     /**
-     * Finds a valid topological ordering using DFS
      *
-     * Test Link: https://practice.geeksforgeeks.org/problems/topological-sort/1
+     * Finds a valid topological ordering using DFS
      *
      * @return Stack<Integer> which stores a valid topological ordering which can be obtained by popping the elements
      */
@@ -40,7 +39,6 @@ public class TopologicalSort
     }
 
     /**
-     * Test Link: https://practice.geeksforgeeks.org/problems/depth-first-traversal-for-a-graph/1
      *
      * @param u parent vertex
      * @param parent parent array
@@ -63,7 +61,6 @@ public class TopologicalSort
     }
 
     /**
-     * Test Link: https://practice.geeksforgeeks.org/problems/topological-sort/1
      *
      * @return LinkedList<Integer> which stores a valid topological ordering which can be obtained by removing all
      * the elements from the start

@@ -29,7 +29,6 @@ public class EulerTrailAndCycle
         }
 
         /**
-         * Test Link: https://practice.geeksforgeeks.org/problems/euler-circuit-and-path/1#
          *
          * @return if the graph contains an euler cycle or not
          */
@@ -72,7 +71,6 @@ public class EulerTrailAndCycle
         }
 
         /**
-         * Test Link: https://practice.geeksforgeeks.org/problems/euler-circuit-and-path/1#
          *
          * @return if the graph contains an euler trail or not
          */

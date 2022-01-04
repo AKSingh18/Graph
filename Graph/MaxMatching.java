@@ -12,6 +12,7 @@ public class MaxMatching
     }
 
     /**
+     *
      * This method converts the given bi-graph to flow graph which is used in finding maximum matching edges.
      * In the flow graph, labelling of L and R vertices will change.
      *
@@ -39,12 +40,10 @@ public class MaxMatching
      *         3 -----> 6
      *
      *
-     *  All edges are outgoing from source 0 are directed. No arrows have been added due to diagram limitation.
-     *  All edges are ingoing to sink 7 are directed. No arrows have been added due to diagram limitation.
+     * All edges are outgoing from source 0 are directed. No arrows have been added due to diagram limitation.
+     * All edges are ingoing to sink 7 are directed. No arrows have been added due to diagram limitation.
      *
-     *  Each edge has a unit weight.
-     *
-     *  Test Link: https://practice.geeksforgeeks.org/problems/maximum-bipartite-matching/1#
+     * Each edge has a unit weight.
      *
      * @return Edges which are part of maximum matching. Each edge is represented as an ArrayList of size 2
      */
