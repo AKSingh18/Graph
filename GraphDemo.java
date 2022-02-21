@@ -1,59 +1,37 @@
 import Graph.*;
 
-import java.util.ArrayList;
-import java.util.Stack;
-
 public class GraphDemo
 {
+    /**
+     * Visit here to see bipartite graph implemented below:
+     * @see Files/minimum-vertex-covered-labelled.jpg
+     *
+     */
     public static void main(String[] args)
     {
-        /*
-        final int vertices = 6;
+        BipartiteGraph bg = new BipartiteGraph(7, 7);
 
-        Graph graph = new UndirectedGraph(vertices);
+        bg.addEdge(0, 9, null);
+        bg.addEdge(0, 10, null);
+        bg.addEdge(1, 7, null);
+        bg.addEdge(1, 8, null);
+        bg.addEdge(1, 11, null);
+        bg.addEdge(2, 9, null);
+        bg.addEdge(2, 10, null);
+        bg.addEdge(2, 12, null);
+        bg.addEdge(3, 8, null);
+        bg.addEdge(3, 11, null);
+        bg.addEdge(3, 12, null);
+        bg.addEdge(4, 9, null);
+        bg.addEdge(4, 10, null);
+        bg.addEdge(4, 12, null);
+        bg.addEdge(5, 7, null);
+        bg.addEdge(5, 11, null);
+        bg.addEdge(5, 12, null);
+        bg.addEdge(5, 13, null);
+        bg.addEdge(6, 12, null);
 
-        graph.addEdge(0, 1, 10);
-        graph.addEdge(0, 2, 10);
-        graph.addEdge(1, 2, 2);
-        graph.addEdge(1, 3, 4);
-        graph.addEdge(1, 4, 8);
-        graph.addEdge(2, 4, 9);
-        graph.addEdge(3, 5, 10);
-        graph.addEdge(4, 3, 6);
-        graph.addEdge(4, 5, 10);
-
-        graph.printGraph();
-
-        MaxFlow maxFlow = new MaxFlow(graph);
-        System.out.println();
-        System.out.println(maxFlow.edmondsKarp(0, 5));
-        */
-
-        /*DirectedGraph graph = new DirectedGraph(7);
-
-        graph.addEdge(0, 1, null);
-        graph.addEdge(0, 2, null);
-        graph.addEdge(1, 2, null);
-        graph.addEdge(2, 3, null);
-        graph.addEdge(1, 5, null);
-        graph.addEdge(6, 1, null);
-        graph.addEdge(6, 5, null);
-        graph.addEdge(5, 3, null);
-        graph.addEdge(5, 4, null);
-
-        Stack<Integer> ordering = new TopologicalSort(graph).topologicalOrdering();
-        while (!ordering.isEmpty()) System.out.print(ordering.pop() + " ");*/
-
-        DirectedGraph graph = new DirectedGraph(6);
-        graph.addEdge(0, 1, null);
-        graph.addEdge(0, 2, null);
-        graph.addEdge(3, 1, null);
-        graph.addEdge(3, 2, null);
-        graph.addEdge(4, 5, null);
-
-        ConnectedComponents.DG connectedComponents = new ConnectedComponents.DG(graph);
-        ArrayList<ArrayList<Integer>> wcc = connectedComponents.weaklyConnectedComponents();
-
-        for (ArrayList<Integer> component : wcc) System.out.println(component);
+        MinVertexCover minVertexCover = new MinVertexCover(bg);
+        System.out.println(minVertexCover.minVertexCover());
     }
 }
